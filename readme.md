@@ -26,12 +26,19 @@ Watches for changes in the TypeScript files and automatically rebuilds them when
 
 Runs the application in development mode. It uses `ts-node-dev` to run the TypeScript files directly without the need for compilation. It also enables hot reloading, allowing you to see changes in real-time during development.
 
-### `npm test`
+### `ENV Variables`
 
-Currently, this script echoes "Error: no test specified" and exits with code 1. You should replace it with actual test commands as per your project's testing framework and requirements.
+```
+
+```
 
 ## Additional Information
 
 - The `prestart` script is configured to run `npm run build` before starting the application in production mode (`npm start`). This ensures that the latest changes are compiled and ready to be executed.
 - Make sure to update the scripts or add additional ones as needed for your specific project requirements.
 
+## Routes, Actions and Methods
+
+| Methods | Routes           | Actions     |
+| ------- | ---------------- | ----------- |
+| POST    | /api/admin/login | Admin Login |

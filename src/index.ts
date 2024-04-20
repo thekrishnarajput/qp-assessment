@@ -4,7 +4,13 @@ import cors from 'cors';
 import moment from 'moment';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+
 dotenv.config();
+
+// Modules import
+import connect from './db';
+import { adminRouter } from './admin/routes/admin.routes';
+import { autoCreateAdminController } from './admin/controllers/admin.controller';
 
 // Initialize the express app
 const app = express();
@@ -13,8 +19,10 @@ const host: string = 'http://127.0.0.1';
 
 const { PORT } = process.env;
 
-
 /* App Configuration */
+
+// Initialize the DB
+connect;
 
 // helmet() adds security related http headers
 app.use(helmet());
@@ -36,12 +44,16 @@ const logFormat = 'Method::method, Route::url, Status-code::status, Request-time
 app.use(morgan(logFormat));
 
 /*  Routing */
-app.use('/', (req: Request, res: Response) => {
-    return res.send("Welcome to the Grocery Shop!");
-})
+
+app.use('/api/admin', adminRouter);
+
+// app.use('/api/user', adminRouter);
+
+// app.use('/api/item', adminRouter);
 
 /* Server initialization */
 
 app.listen(PORT, () => {
+    autoCreateAdminController();
     console.log(`Server is running on ${host}:${PORT}`);
 });
