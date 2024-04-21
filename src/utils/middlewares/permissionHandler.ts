@@ -6,7 +6,9 @@ import { response } from "./response";
 // Role based permission for routes to prevent unauthorized access
 export const permit = (roles: Array<number>) => {
     return (req: iRequest, res: iResponse, next: iNextFunction) => {
-        const roleId = req.user.role;
+
+        const roleId = req?.user.role;
+
         if (!roles.includes(roleId)) {
             return response(res, HttpStatus.unauthorized, false, messages.notAuthorized(), null);
         }

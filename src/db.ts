@@ -1,5 +1,8 @@
 import { createPool, createConnection, Connection } from "mysql2/promise";
 import { adminSchema } from "./admin/schemas/admin.schema";
+import { itemSchema } from "./item/schemas/item.schema";
+import { categorySchema } from "./category/schemas/category.schema";
+import { userSchema } from "./user/schemas/user.schema";
 
 const connect = async () => {
     try {
@@ -36,8 +39,11 @@ const createTables = async (connection: Connection): Promise<void> => {
     // Switch to the grocery_db database
     await connection.query('USE grocery_db');
 
-    // Create admin table if not exists
+    // Create tables if they not exist
     await connection.query(adminSchema);
+    await connection.query(itemSchema);
+    await connection.query(categorySchema);
+    await connection.query(userSchema);
 };
 
 export default connect();

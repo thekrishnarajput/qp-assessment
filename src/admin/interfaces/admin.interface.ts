@@ -5,7 +5,7 @@ export default interface iAdmin {
     name: string;
     email: string;
     mobile_number: number;
-    password: String | string;
+    password: string;
     role: number;
     status: number;
     created_at: Date;

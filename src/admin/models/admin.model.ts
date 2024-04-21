@@ -1,6 +1,6 @@
 import connection from "../../db";
-import { processQueryFn } from "../../utils/common/functions/db.config"
-import iAdmin from "../interfaces/admin.interface"
+import { processQueryFn } from "../../utils/common/functions/db.config";
+
 const adminModel = {
     createAdmin: async (adminData: any) => {
         // Call the mysql connection to make the query secure and sql injection proof
@@ -10,7 +10,7 @@ const adminModel = {
 
         let query = `INSERT INTO admins(${columns.join(', ')}) VALUES `;
 
-        const rowValues = columns.map((column: any) => {
+        const rowValues = columns.map((column: string) => {
 
             // To make the query secure and sql injection proof
             return con.escape(adminData[column]);

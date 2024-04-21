@@ -8,7 +8,6 @@ import { messages } from "../../utils/common/functions/message";
 import { comparePassword, hashPassword } from "../../utils/common/functions/passwordHashing";
 import { iRequest, iResponse, iNextFunction } from "../../utils/common/interfaces/types.interface";
 import { response } from "../../utils/middlewares/response";
-import { ErrData } from "../../utils/middlewares/throwError";
 import iAdmin from "../interfaces/admin.interface";
 import adminModel from "../models/admin.model";
 import { genAdminToken } from "../../utils/middlewares/token";
@@ -47,6 +46,9 @@ export const autoCreateAdminController = async () => {
                 let saveAdminResult = await adminModel.createAdmin(result);
                 if (saveAdminResult) {
                     console.log(`Admin ${saveAdminResult.insertId} created successfully!`);
+                }
+                else {
+                    console.log("Admin creation failed, something went wrong: ", saveAdminResult);
                 }
             }
             else {
@@ -93,5 +95,6 @@ export const adminLoginController = async (req: iRequest, res: iResponse, next: 
     catch (error: any) {
         console.log("Catch error:-", error);
         printLogger(LoggerType.error, error.message, "adminLoginController", "admin.controller.ts");
+        next(error);
     }
 };

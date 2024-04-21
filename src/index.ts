@@ -11,6 +11,9 @@ dotenv.config();
 import connect from './db';
 import { adminRouter } from './admin/routes/admin.routes';
 import { autoCreateAdminController } from './admin/controllers/admin.controller';
+import { itemRouter } from './item/routes/item.routes';
+import { categoryRouter } from './category/routes/category.routes';
+import { userRouter } from './user/routes/user.routes';
 
 // Initialize the express app
 const app = express();
@@ -47,9 +50,11 @@ app.use(morgan(logFormat));
 
 app.use('/api/admin', adminRouter);
 
-// app.use('/api/user', adminRouter);
+app.use('/api/user', userRouter);
 
-// app.use('/api/item', adminRouter);
+app.use('/api/grocery-item', itemRouter);
+
+app.use('/api/category', categoryRouter);
 
 /* Server initialization */
 

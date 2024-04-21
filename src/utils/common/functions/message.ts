@@ -4,8 +4,28 @@ export const messages = {
         return "You are not authorized to perform this action!";
     },
 
+    noTokenProvided: () => {
+        return "Authorization failed, no token provided!";
+    },
+
+    invalidOrExpiredToken: () => {
+        return "Authorization failed, token is invalid!";
+    },
+
     itemNotSaved: () => {
         return "Item could not be saved!";
+    },
+
+    itemSaved: () => {
+        return "Item saved successfully!";
+    },
+
+    categoryNotSaved: () => {
+        return "Item could not be saved!";
+    },
+
+    categorySaved: () => {
+        return "Item saved successfully!";
     },
 
     userNotSaved: () => {

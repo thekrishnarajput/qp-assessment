@@ -2,16 +2,19 @@ import jwt from "jsonwebtoken";
 
 import { iRequest, iNextFunction, iResponse } from "../common/interfaces/types.interface";
 import { HttpStatus } from "../common/enums/httpStatusCodes";
+import { response } from "./response";
+import { messages } from "../common/functions/message";
+import { ErrData } from "./throwError";
 
 const secretKey = (process.env.JWT_SECRET + "");
 
 // Verify JWT token using this middleware
 export const auth = async (req: iRequest, res: iResponse, next: iNextFunction) => {
 
-    const token: string | undefined = req.headers.authorization?.split(' ')[1];
+    const token: string | undefined = req.headers?.authorization?.split(' ')[1];
 
     if (!token) {
-        return res.send({ res, code: HttpStatus.unauthorized, status: false, message: "Authorization failed, no token provided!", data: null });
+        return response(res, HttpStatus.unauthorized, false, messages.noTokenProvided(), null);
     }
     try {
         let decoded: any = jwt.verify(token, secretKey);
@@ -24,18 +27,18 @@ export const auth = async (req: iRequest, res: iResponse, next: iNextFunction) =
     }
     catch (error) {
         console.error("Catch Error:-", error);
-        return res.send({ res, code: HttpStatus.forbidden, status: false, message: "Authorization failed, token is invalid!", data: null });
+        throw ErrData(HttpStatus.forbidden, messages.invalidOrExpiredToken(), error);
     }
 };
 
 // Generate JWT token for the users
 export const genToken = async (params: any) => {
-    const token: string = jwt.sign(params, secretKey, { expiresIn: "24h" });
+    const token: string = jwt.sign(params, secretKey, { expiresIn: "30d" });
     return token;
 };
 
 // Generate JWT token for the admin
 export const genAdminToken = async (params: any) => {
-    const token: string = jwt.sign(params, secretKey, { expiresIn: "1h" });
+    const token: string = jwt.sign(params, secretKey, { expiresIn: "24h" });
     return token;
 }
