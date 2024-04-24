@@ -14,6 +14,7 @@ import { autoCreateAdminController } from './admin/controllers/admin.controller'
 import { itemRouter } from './item/routes/item.routes';
 import { categoryRouter } from './category/routes/category.routes';
 import { userRouter } from './user/routes/user.routes';
+import { cartRouter } from './cart/routes/cart.routes';
 
 // Initialize the express app
 const app = express();
@@ -55,6 +56,8 @@ app.use('/api/user', userRouter);
 app.use('/api/grocery-item', itemRouter);
 
 app.use('/api/category', categoryRouter);
+
+app.use('/api/cart', cartRouter);
 
 /* Server initialization */
 

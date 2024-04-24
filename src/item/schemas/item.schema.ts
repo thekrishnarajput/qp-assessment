@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS items (
     description VARCHAR(255),
     image_url TEXT,
     quantity INT UNSIGNED NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY(category_id) REFERENCES categories(id)
 );
 `;

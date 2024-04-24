@@ -3,6 +3,7 @@ import { adminSchema } from "./admin/schemas/admin.schema";
 import { itemSchema } from "./item/schemas/item.schema";
 import { categorySchema } from "./category/schemas/category.schema";
 import { userSchema } from "./user/schemas/user.schema";
+import { cartItemSchema, cartSchema } from "./cart/schemas/cart.schema";
 
 const connect = async () => {
     try {
@@ -41,9 +42,11 @@ const createTables = async (connection: Connection): Promise<void> => {
 
     // Create tables if they not exist
     await connection.query(adminSchema);
-    await connection.query(itemSchema);
     await connection.query(categorySchema);
+    await connection.query(itemSchema);
     await connection.query(userSchema);
+    await connection.query(cartSchema);
+    await connection.query(cartItemSchema);
 };
 
 export default connect();

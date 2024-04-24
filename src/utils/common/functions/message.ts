@@ -20,6 +20,22 @@ export const messages = {
         return "Item saved successfully!";
     },
 
+    itemNotRemoved: () => {
+        return "Item could not be removed!";
+    },
+
+    itemRemoved: () => {
+        return "Item removed successfully!";
+    },
+
+    itemNotUpdated: () => {
+        return "Item quantity could not be updated!";
+    },
+
+    itemUpdated: () => {
+        return "Item quantity updated successfully!";
+    },
+
     categoryNotSaved: () => {
         return "Item could not be saved!";
     },
@@ -40,16 +56,16 @@ export const messages = {
         return `Data updated successfully!`;
     },
 
+    updatedFailed: () => {
+        return `Data couldn't be updated!`;
+    },
+
     deletedSuccess: () => {
         return `User deleted successfully!`;
     },
 
     deletedFailed: () => {
         return `User couldn't be deleted!`;
-    },
-
-    updatedFailed: () => {
-        return `Data couldn't be updated!`;
     },
 
     savedSuccess: () => {
@@ -92,12 +108,16 @@ export const messages = {
         return `Oops! something went wrong, please try again.`;
     },
 
+    blockedOrDeletedMessage: () => {
+        return `Oops! looks like this account is blocked or deleted, please contact to the site admin.`;
+    },
+
     alreadyExists: (params: string) => {
         return `Sorry, this ${params} is already linked with another account.`;
     },
 
-    txnIdAlreadyExists: () => {
-        return `Sorry, this transaction id is already exists.`;
+    oldPasswordExists: () => {
+        return `Sorry, this password is already exists, please choose another password.`;
     },
 
     validationError: () => {

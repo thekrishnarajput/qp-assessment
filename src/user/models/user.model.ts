@@ -21,11 +21,31 @@ const userModel = {
         let result = await processQueryFn(query);
         return result;
     },
-    getUser: async (email: string) => {
+    getUserByEmail: async (email: string) => {
 
         let query = `SELECT * FROM users WHERE email='${email}'`;
 
         let result = await processQueryFn(query);
+        return result;
+    },
+    getUserById: async (id: number) => {
+        let query = `SELECT * FROM users WHERE id='${id}'`;
+
+        let result = await processQueryFn(query);
+        return result;
+    },
+    getAllUsers: async () => {
+        let query = `SELECT * FROM users;`;
+
+        let result = await processQueryFn(query);
+        return result;
+    },
+    updateUserById: async (id: number, userData: any) => {
+        const columns = Object.keys(userData).join('=?, ') + "=? ";
+        const values = Object.values(userData);
+        let query = `UPDATE users SET ${columns} WHERE id='${id}'`;
+
+        let result = await processQueryFn(query, values);
         return result;
     },
 }

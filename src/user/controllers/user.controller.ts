@@ -23,8 +23,11 @@ export const registerUserController = async (req: iRequest, res: iResponse, next
         }
 
         let Body: iUser = req.body;
-        if (!Body) {
-            return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
+        const userExists = await userModel.getUserByEmail(Body.email);
+        console.log("userExists:-", userExists);
+
+        if (userExists.length) {
+            return response(res, HttpStatus.notFound, false, messages.alreadyExists(`email: ${Body.email}`), null);
         }
         Body.password = await hashPassword((Body?.password));
         Body.status = Status.inactiveStatus;
@@ -56,15 +59,31 @@ export const userLoginController = async (req: iRequest, res: iResponse, next: i
 
         let userEmail = Body?.email.trim();;
         let userPassword: string = (Body?.password + "").trim();
-        const userResult = await userModel.getUser(userEmail);
+        const userResult = await userModel.getUserByEmail(userEmail);
         if (userResult.length > 0) {
 
             const { password, ...restProps } = userResult[0];
+            // Check if the user is blocked or deleted
+            if (restProps.status === Status.deletedStatus || restProps.status === Status.blockedStatus) {
+                return response(res, HttpStatus.forbidden, false, messages.blockedOrDeletedMessage(), null);
+            }
+
             if (password) {
                 let passwordMatched = await comparePassword(userPassword, password);
                 if (passwordMatched) {
+                    // Check if the user is logging in for the first time then mark the status as active
+                    if (restProps.status === Status.inactiveStatus) {
+                        let updateResult = await userModel.updateUserById(restProps.id, { status: Status.activeStatus });
+                        if (updateResult.affectedRows > 0) {
+                            restProps.status = Status.activeStatus;
+                        }
+                    }
                     const jwt = await genToken(restProps);
-                    return response(res, HttpStatus.ok, true, messages.loginSuccess(), jwt);
+                    let responseData = {
+                        ...restProps,
+                        token: jwt
+                    };
+                    return response(res, HttpStatus.ok, true, messages.loginSuccess(), responseData);
                 }
                 return response(res, HttpStatus.notFound, false, messages.incorrectPassword(), null);
             }
@@ -76,5 +95,127 @@ export const userLoginController = async (req: iRequest, res: iResponse, next: i
         console.log("Catch error:-", error);
         printLogger(LoggerType.error, error.message, "userLoginController", "user.controller.ts");
         next(error);
+    }
+};
+
+// Update user controller
+export const updateUserController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
+    try {
+        // Check validation errors
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+        }
+        let Body: iUser = req.body;
+        // Destruct the Body object so user can't modify the crucial fields
+        const { id, role, status, email, mobile_number, ...restBodyProps } = Body;
+        let userId: number = req.user?.role === Roles.adminRoleId ? +(id || "") : +(req.user?.id);
+
+        var userResult = await userModel.getUserById(userId);
+
+        if (userResult.length === 0) {
+            return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
+        }
+        const { password: userPassword } = userResult[0];
+
+        // Check if old password is same as new password
+        let oldPassword = await comparePassword(restBodyProps.password, userPassword);
+        if (oldPassword) {
+            return response(res, HttpStatus.found, false, messages.oldPasswordExists(), null);
+        }
+        restBodyProps.password = await hashPassword(restBodyProps.password);
+        const updateResult = await userModel.updateUserById(userId, restBodyProps);
+
+        if (updateResult.affectedRows === 0) {
+            return response(res, HttpStatus.notModified, false, messages.updatedFailed(), null);
+        }
+        var { password, ...restUserProps } = (await userModel.getUserById(userId))[0];
+        return response(res, HttpStatus.ok, true, messages.updatedSuccess(), restUserProps);
+    }
+    catch (error: any) {
+        console.error("Catch error:-", error);
+        printLogger(LoggerType.error, error.message, "updateUserController", "user.controller.ts");
+    }
+};
+
+// delete user controller
+export const deleteUserController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
+    try {
+        // Check validation errors
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+        }
+        let id: number = req.user?.role === Roles.adminRoleId ? req.body?.id : +(req.user?.id);
+
+        let userResult = await userModel.getUserById(id);
+
+        if (userResult.length === 0) {
+            return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
+        }
+
+        // delete user
+        let updateStatus = { status: Status.deletedStatus };
+
+        const updateResult = await userModel.updateUserById(id, updateStatus);
+
+        if (updateResult.affectedRows === 0) {
+            return response(res, HttpStatus.notModified, false, messages.deletedFailed(), null);
+        }
+        const { password, ...restUserProps } = (await userModel.getUserById(id))[0];
+        return response(res, HttpStatus.ok, true, messages.deletedSuccess(), restUserProps);
+    }
+    catch (error: any) {
+        console.error("Catch error:-", error);
+        printLogger(LoggerType.error, error.message, "deleteUserController", "user.controller.ts");
+    }
+};
+
+// Get user data
+export const getUserController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
+    try {
+        // Check validation errors
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+        }
+        let id: number = +(req.params?.id);
+
+        let userResult = await userModel.getUserById(id);
+        console.log("userResult:-", userResult);
+
+        if (userResult.length === 0) {
+            return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
+        }
+
+        const { password, ...restUserProps } = userResult[0];
+        return response(res, HttpStatus.ok, true, messages.dataFound(), restUserProps);
+    }
+    catch (error: any) {
+        console.error("Catch error:-", error);
+        printLogger(LoggerType.error, error.message, "getUserController", "user.controller.ts");
+    }
+};
+
+// Get all users data
+export const getAllUsersController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
+    try {
+
+        let userResult = await userModel.getAllUsers();
+        console.log("userResult:-", userResult);
+
+        if (userResult.length === 0) {
+            return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
+        }
+
+        let responseData = {
+            count: userResult.length,
+            users: userResult
+        }
+        return response(res, HttpStatus.ok, true, messages.dataFound(), responseData);
+    }
+    catch (error: any) {
+        console.error("Catch error:-", error);
+        printLogger(LoggerType.error, error.message, "getAllUsersController", "user.controller.ts");
     }
 };

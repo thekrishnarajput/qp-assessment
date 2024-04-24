@@ -25,9 +25,10 @@ export const auth = async (req: iRequest, res: iResponse, next: iNextFunction) =
             next();
         }
     }
-    catch (error) {
+    catch (error: any) {
         console.error("Catch Error:-", error);
-        throw ErrData(HttpStatus.forbidden, messages.invalidOrExpiredToken(), error);
+        return response(res, HttpStatus.forbidden, false, error.message, error);
+        // ErrData(HttpStatus.forbidden, messages.invalidOrExpiredToken(), error);
     }
 };
 
