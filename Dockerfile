@@ -2,15 +2,17 @@
 FROM node:18-alpine
 
 # Make directory with permission to install dependencies
-RUN mkdir -p /home/node/app/node_modules && chmod -R 777 node:node /home/node/app
+# RUN /home/node/app
+# RUN mkdir -p /home/node/app/node_modules && chmod -R 777 node:node /home/node/app
 
 # Working directory
 WORKDIR /usr/src/app
+RUN chmod -R 777 .
 
 # Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+COPY package*.json .
 
-RUN npm install -g npm@10.5.2
+# RUN npm install -g npm@10.5.2
 
 # Install dependencies
 RUN npm i
@@ -19,9 +21,9 @@ RUN npm i
 # COPY --chown=node:node . .
 COPY . .
 
-USER root
+# USER root
 # Install TS globally
-RUN npm install -g typescript
+RUN npm install typescript --save-dev
 
 # Ensure the user is not a root user for security purposes
 USER node
@@ -33,4 +35,4 @@ RUN npm run build
 EXPOSE 3030
 
 # Command to run the server
-CMD ["NODE", "./dist/index.js"]
+CMD ["NODE", "dist/index.js"]
