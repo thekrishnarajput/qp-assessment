@@ -1,9 +1,10 @@
-import { createPool, createConnection, Connection } from "mysql2/promise";
+import { createConnection, Connection } from "mysql2/promise";
 import { adminSchema } from "./admin/schemas/admin.schema";
 import { itemSchema } from "./item/schemas/item.schema";
 import { categorySchema } from "./category/schemas/category.schema";
 import { userSchema } from "./user/schemas/user.schema";
 import { cartItemSchema, cartSchema } from "./cart/schemas/cart.schema";
+import { orderItemSchema, orderSchema } from "./order/schemas/order.schema";
 
 const connect = async () => {
     try {
@@ -47,6 +48,8 @@ const createTables = async (connection: Connection): Promise<void> => {
     await connection.query(userSchema);
     await connection.query(cartSchema);
     await connection.query(cartItemSchema);
+    await connection.query(orderSchema);
+    await connection.query(orderItemSchema);
 };
 
 export default connect();

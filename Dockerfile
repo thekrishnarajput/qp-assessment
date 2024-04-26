@@ -35,4 +35,4 @@ RUN npm run build
 EXPOSE 3030
 
 # Command to run the server
-CMD ["NODE", "dist/index.js"]
+CMD ["node", "dist/index.js"]

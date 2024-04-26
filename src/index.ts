@@ -59,6 +59,8 @@ app.use('/api/category', categoryRouter);
 
 app.use('/api/cart', cartRouter);
 
+app.use('/api/order', cartRouter);
+
 /* Server initialization */
 
 app.listen(PORT, () => {
