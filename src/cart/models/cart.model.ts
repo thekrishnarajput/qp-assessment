@@ -31,7 +31,6 @@ const cartModel = {
 
         // Append the row values to the query
         query += rowValues.join(", ");
-        console.log("query:-", query);
 
         let result = await processQueryFn(query);
         return result;
@@ -61,14 +60,13 @@ const cartModel = {
         // const values = Object.values(quantity);
 
         let query = `UPDATE cart_items SET quantity=? WHERE item_id=${itemId}`
-        console.log("query:-", query);
 
         let result = processQueryFn(query, [quantity]);
         return result;
     },
-    removeCartItem: async (cart_item_id: number) => {
+    removeCartItem: async (cartItemId: number) => {
 
-        let query = `DELETE FROM cart_items WHERE id=${cart_item_id};`
+        let query = `DELETE FROM cart_items WHERE id=${cartItemId};`
 
         let result = processQueryFn(query);
         return result;

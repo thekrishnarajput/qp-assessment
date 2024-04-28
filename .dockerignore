@@ -1,2 +1,4 @@
 logs
 npm-debug.log
+db_backup
+node_modules

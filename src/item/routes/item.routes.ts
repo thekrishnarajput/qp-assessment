@@ -50,13 +50,3 @@ itemRouter.post("/delete/:id",
     permit([Roles.adminRoleId]),  // Only admin can create items
     validator.id,
     deleteItemController);
-
-/* Category routes */
-
-
-// To save the category
-itemRouter.post("/save-category",
-    auth,
-    permit([Roles.adminRoleId]),  // Only admin can create items
-    validator.name,
-    saveItemsController);

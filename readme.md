@@ -1,6 +1,10 @@
 # Grocery Shop APIs
 
-These are the APIs for a grocery shop, with two roles (Admin and User). They have been developed using Node.js in TypeScript.
+These are the APIs for a grocery shop.
+
+Prioritized security by implementing measures such as JWT, Helmet, BcryptJS, CORS, DotEnv, Express Validator, as well as implemented loggers like Morgan and Pino. Utilized MySQL as the Relational Database and built the application using Express.js with Typescript for strict type checking and the project structure is fully modules based.
+
+Managing Role Based Authentication and API access was also a key focus. Developed Auto admin creation on server start, custom middlewares to handle responses, errors, URL not found, and logging. Additionally, Created schema tables and interfaces, implemented Enums for various codes, and incorporated common functions. Docker was used for containerizing the project and database to facilitate deployment and maintenance.
 
 ## Prerequisites
 
@@ -8,7 +12,14 @@ Before running any of the scripts, make sure you have [Node.js](https://nodejs.o
 
 ## Postman Collection
 
-[Postman Collection](https://documenter.getpostman.com/view/20048469/2sA3BuV8BH)
+[Please click here](https://documenter.getpostman.com/view/20048469/2sA3BuV8BH) to see the Postman Collection and documentation.
+
+## Docker commands
+
+```
+docker-compose build --no-cache
+docker-compose --env-file .env up -d
+```
 
 ## Available Scripts
 
@@ -20,7 +31,7 @@ Runs the application in production mode. It executes the compiled JavaScript fil
 
 ### `npm run build`
 
-Builds the TypeScript files into JavaScript files. It transpiles the TypeScript code to JavaScript using the TypeScript compiler (`tsc`) and generates the output in the `dist` directory.
+Builds the TypeScript files into JavaScript files. It transpile the TypeScript code to JavaScript using the TypeScript compiler (`tsc`) and generates the output in the `dist` directory.
 
 ### `npm run watch`
 
@@ -43,6 +54,11 @@ ADMIN_NAME2="Krishna Karn"
 ADMIN_EMAIL2="admin2@example.com"
 ADMIN_PASSWORD2="1111"
 ADMIN_MOBILE2=8976543211
+
+MYSQL_ROOT_PASSWORD="root"
+MYSQL_HOST="127.0.0.1"
+DOCKER_MYSQL_HOST="db"
+IS_DOCKER_ENV="true"
 ```
 
 ## Additional Information

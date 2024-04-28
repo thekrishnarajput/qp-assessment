@@ -30,7 +30,7 @@ cartRouter.post("/update-quantity/:item_id",
     updateQuantityController);
 
 // Delete the category
-cartRouter.get("/remove-item",
+cartRouter.get("/remove-item/:cart_item_id",
     auth,
     permit([Roles.userRoleId]),  // Only user can delete cart items
     validator.cart_item_id,

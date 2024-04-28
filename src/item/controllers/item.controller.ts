@@ -15,7 +15,7 @@ export const saveItemsController = async (req: iRequest, res: iResponse, next: i
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         let Body: iItems[] = req.body.items;
@@ -41,13 +41,12 @@ export const getItemController = async (req: iRequest, res: iResponse, next: iNe
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const id: number = +(req.params?.id);
 
         let itemListResult = await itemModel.getItem(id);
-        console.log("itemListResult:-", itemListResult);
 
         if (itemListResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
@@ -65,7 +64,6 @@ export const getAllItemsController = async (req: iRequest, res: iResponse, next:
     try {
 
         let itemListResult = await itemModel.getAllItemsList();
-        console.log("itemListResult:-", itemListResult);
 
         if (itemListResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
@@ -85,13 +83,12 @@ export const getAllItemsByCategoryController = async (req: iRequest, res: iRespo
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const id: number = +(req.params?.id);
 
         let itemListResult = await itemModel.getAllItemsByCategory(id);
-        console.log("itemListResult:-", itemListResult);
 
         if (itemListResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
@@ -110,24 +107,25 @@ export const updateItemDetailsController = async (req: iRequest, res: iResponse,
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const id: number = +(req.params?.id);
 
         let Body: iItems = req.body;
 
-        if (!id) {
+        let updateResult = await itemModel.updateItem(id, Body);
+
+        if (updateResult.affectedRows === undefined || updateResult.affectedRows === 0) {
+            return response(res, HttpStatus.internalServerError, false, messages.itemNotUpdated(), null);
+        }
+        let itemListResult = await itemModel.getItem(id);
+
+        if (itemListResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
         }
 
-        let updateResult = await itemModel.updateItem(id, Body);
-        console.log("updateResult:-", updateResult);
-
-        if (updateResult.affectedRows === undefined || updateResult.affectedRows === 0) {
-            return response(res, HttpStatus.internalServerError, false, messages.itemNotSaved(), null);
-        }
-        return response(res, HttpStatus.ok, true, messages.itemSaved(), updateResult);
+        return response(res, HttpStatus.ok, true, messages.itemUpdated(), itemListResult);
     }
     catch (error: any) {
         console.error("Catch error:-", error);
@@ -138,28 +136,30 @@ export const updateItemDetailsController = async (req: iRequest, res: iResponse,
 // Update item inventory
 export const updateItemInventoryController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
     try {
-        console.log("req.params:-", req.params);
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const id: number = +(req.params?.id);
 
         let Body: iItems = req.body;
 
-        if (!id) {
-            return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
-        }
 
         let updateResult = await itemModel.updateItem(id, Body);
-        console.log("updateResult:-", updateResult);
 
         if (updateResult.affectedRows === undefined || updateResult.affectedRows === 0) {
             return response(res, HttpStatus.internalServerError, false, messages.itemNotUpdated(), null);
         }
-        return response(res, HttpStatus.ok, true, messages.itemUpdated(), updateResult);
+
+        let itemListResult = await itemModel.getItem(id);
+
+        if (itemListResult.length === 0) {
+            return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
+        }
+
+        return response(res, HttpStatus.ok, true, messages.itemUpdated(), itemListResult);
     }
     catch (error: any) {
         console.error("Catch error:-", error);
@@ -173,22 +173,17 @@ export const deleteItemController = async (req: iRequest, res: iResponse, next: 
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const id: number = +(req.params?.id);
 
-        if (!id) {
-            return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
-        }
-
         let deleteResult = await itemModel.deleteItem(id);
-        console.log("deleteResult:-", deleteResult);
 
         if (deleteResult.affectedRows === undefined || deleteResult.affectedRows === 0) {
             return response(res, HttpStatus.internalServerError, false, messages.itemNotSaved(), null);
         }
-        return response(res, HttpStatus.ok, true, messages.itemSaved(), deleteResult);
+        return response(res, HttpStatus.ok, true, messages.itemSaved(), null);
     }
     catch (error: any) {
         console.error("Catch error:-", error);

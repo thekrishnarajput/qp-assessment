@@ -15,7 +15,7 @@ export const addToCartController = async (req: iRequest, res: iResponse, next: i
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const userId: number = +(req.user?.id);
@@ -23,14 +23,12 @@ export const addToCartController = async (req: iRequest, res: iResponse, next: i
         let Body: any[] = req.body.items;
 
         let userCartResult = await cartModel.getCart(userId);
-        console.log("userCartResult:-", userCartResult);
 
         let cartId = userCartResult[0]?.id || null;
         //  If there is no cart for this user, create a new one and get its id
         if (userCartResult.length === 0) {
             // Create new Cart for User and then add item into it
             let newUserCart: any = await cartModel.createUserCart(userId);
-            console.log("newUserCart:-", newUserCart);
 
             if (newUserCart.affectedRows === undefined || newUserCart.affectedRows === 0) {
                 return response(res, HttpStatus.internalServerError, false, messages.errorMessage(), null);
@@ -43,7 +41,6 @@ export const addToCartController = async (req: iRequest, res: iResponse, next: i
         }
 
         let saveResult = await cartModel.addItemsToCart(cartId, Body);
-        console.log("saveResult:-", saveResult.affectedRows);
 
         if (saveResult.affectedRows === undefined || saveResult.affectedRows === 0) {
             return response(res, HttpStatus.internalServerError, false, messages.itemNotAdded(), null);
@@ -77,7 +74,7 @@ export const updateQuantityController = async (req: iRequest, res: iResponse, ne
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const item_id: number = +(req.params?.item_id);
@@ -89,7 +86,6 @@ export const updateQuantityController = async (req: iRequest, res: iResponse, ne
         }
 
         let updateResult = await cartModel.updateCartItem(item_id, Body.quantity);
-        console.log("updateResult:-", updateResult);
 
         if (updateResult.affectedRows === undefined || updateResult.affectedRows === 0) {
             return response(res, HttpStatus.internalServerError, false, messages.itemNotUpdated(), null);
@@ -112,17 +108,12 @@ export const removeCartItemController = async (req: iRequest, res: iResponse, ne
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const cart_item_id: number = +(req.params?.cart_item_id);
 
-        if (!cart_item_id) {
-            return response(res, HttpStatus.notAcceptable, false, messages.errorMessage(), null);
-        }
-
         let removeResult = await cartModel.removeCartItem(cart_item_id);
-        console.log("removeResult:-", removeResult);
 
         if (removeResult.affectedRows === undefined || removeResult.affectedRows === 0) {
             return response(res, HttpStatus.internalServerError, false, messages.itemNotRemoved(), null);

@@ -28,6 +28,13 @@ const userModel = {
         let result = await processQueryFn(query);
         return result;
     },
+    getUserByMobile: async (mobileNumber: number) => {
+
+        let query = `SELECT * FROM users WHERE mobile_number=${mobileNumber}`;
+
+        let result = await processQueryFn(query);
+        return result;
+    },
     getUserById: async (id: number) => {
         let query = `SELECT * FROM users WHERE id='${id}'`;
 

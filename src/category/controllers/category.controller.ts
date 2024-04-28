@@ -15,7 +15,7 @@ export const saveCategoriesController = async (req: iRequest, res: iResponse, ne
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         let Body: iCategories[] = req.body.categories;
@@ -42,7 +42,7 @@ export const getCategoryController = async (req: iRequest, res: iResponse, next:
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const id: number = +(req.params?.id);
@@ -66,7 +66,6 @@ export const getAllCategoriesController = async (req: iRequest, res: iResponse, 
     try {
 
         let categoryListResult = await categoryModel.getAllCategoryList();
-        console.log("categoryListResult:-", categoryListResult);
 
         if (categoryListResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
@@ -86,7 +85,7 @@ export const updateCategoryDetailsController = async (req: iRequest, res: iRespo
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const id: number = +(req.params?.id);
@@ -98,7 +97,6 @@ export const updateCategoryDetailsController = async (req: iRequest, res: iRespo
         }
 
         let updateResult = await categoryModel.updateCategory(id, Body);
-        console.log("updateResult:-", updateResult);
 
         if (updateResult.affectedRows === undefined || updateResult.affectedRows === 0) {
             return response(res, HttpStatus.internalServerError, false, messages.categoryNotSaved(), null);
@@ -118,7 +116,7 @@ export const deleteCategoryController = async (req: iRequest, res: iResponse, ne
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const id: number = +(req.params?.id);
@@ -128,7 +126,6 @@ export const deleteCategoryController = async (req: iRequest, res: iResponse, ne
         }
 
         let deleteResult = await categoryModel.deleteCategory(id);
-        console.log("deleteResult:-", deleteResult);
 
         if (deleteResult.affectedRows === undefined || deleteResult.affectedRows === 0) {
             return response(res, HttpStatus.internalServerError, false, messages.categoryNotSaved(), null);

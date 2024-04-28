@@ -24,7 +24,6 @@ userRouter.post("/login",
 userRouter.post("/update-user",
     auth,
     permit([Roles.userRoleId, Roles.adminRoleId]), // User and admin both can perform this task
-    validator.id,
     updateUserController);
 
 userRouter.post("/delete-user",

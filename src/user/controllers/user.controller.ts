@@ -19,25 +19,31 @@ export const registerUserController = async (req: iRequest, res: iResponse, next
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         let Body: iUser = req.body;
         const userExists = await userModel.getUserByEmail(Body.email);
-        console.log("userExists:-", userExists);
 
         if (userExists.length) {
-            return response(res, HttpStatus.notFound, false, messages.alreadyExists(`email: ${Body.email}`), null);
+            return response(res, HttpStatus.badRequest, false, messages.alreadyExists(`email: ${Body.email}`), null);
         }
+
+        const userMobileExists = await userModel.getUserByMobile(Body.mobile_number);
+
+        if (userMobileExists.length) {
+            return response(res, HttpStatus.badRequest, false, messages.alreadyExists(`mobile no: ${Body.mobile_number}`), null);
+        }
+
         Body.password = await hashPassword((Body?.password));
         Body.status = Status.inactiveStatus;
         Body.role = Roles.userRoleId;
 
         let saveResult = await userModel.createUser(Body);
         if (saveResult.affectedRows === undefined) {
-            return response(res, HttpStatus.internalServerError, false, messages.itemNotSaved(), null);
+            return response(res, HttpStatus.internalServerError, false, messages.userNotSaved(), null);
         }
-        return response(res, HttpStatus.ok, true, messages.itemSaved(), saveResult);
+        return response(res, HttpStatus.ok, true, messages.userSaved(), saveResult);
     }
     catch (error: any) {
         console.error("Catch error:-", error);
@@ -51,11 +57,10 @@ export const userLoginController = async (req: iRequest, res: iResponse, next: i
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         let Body = req.body;
-        console.log("Body:-", Body);
 
         let userEmail = Body?.email.trim();;
         let userPassword: string = (Body?.password + "").trim();
@@ -85,14 +90,14 @@ export const userLoginController = async (req: iRequest, res: iResponse, next: i
                     };
                     return response(res, HttpStatus.ok, true, messages.loginSuccess(), responseData);
                 }
-                return response(res, HttpStatus.notFound, false, messages.incorrectPassword(), null);
+                return response(res, HttpStatus.unauthorized, false, messages.incorrectPassword(), null);
             }
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
         }
         return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
     }
     catch (error: any) {
-        console.log("Catch error:-", error);
+        console.error("Catch error:-", error);
         printLogger(LoggerType.error, error.message, "userLoginController", "user.controller.ts");
         next(error);
     }
@@ -104,11 +109,12 @@ export const updateUserController = async (req: iRequest, res: iResponse, next: 
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
         let Body: iUser = req.body;
         // Destruct the Body object so user can't modify the crucial fields
         const { id, role, status, email, mobile_number, ...restBodyProps } = Body;
+
         let userId: number = req.user?.role === Roles.adminRoleId ? +(id || "") : +(req.user?.id);
 
         var userResult = await userModel.getUserById(userId);
@@ -144,7 +150,7 @@ export const deleteUserController = async (req: iRequest, res: iResponse, next: 
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
         let id: number = req.user?.role === Roles.adminRoleId ? req.body?.id : +(req.user?.id);
 
@@ -154,7 +160,7 @@ export const deleteUserController = async (req: iRequest, res: iResponse, next: 
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
         }
 
-        // delete user
+        // Soft delete user by updating the status as deleted
         let updateStatus = { status: Status.deletedStatus };
 
         const updateResult = await userModel.updateUserById(id, updateStatus);
@@ -177,12 +183,11 @@ export const getUserController = async (req: iRequest, res: iResponse, next: iNe
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
         let id: number = +(req.params?.id);
 
         let userResult = await userModel.getUserById(id);
-        console.log("userResult:-", userResult);
 
         if (userResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
@@ -202,7 +207,6 @@ export const getAllUsersController = async (req: iRequest, res: iResponse, next:
     try {
 
         let userResult = await userModel.getAllUsers();
-        console.log("userResult:-", userResult);
 
         if (userResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);

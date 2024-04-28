@@ -17,7 +17,7 @@ export const processQueryFn = async (query: string, values?: Array<any>) => {
         return result[0];
     }
     catch (error: any) {
-        console.log(error);
+        console.error(error);
         printLogger(LoggerType.error, error.message, "processQueryFn", "db.config.ts");
         return error;
     }

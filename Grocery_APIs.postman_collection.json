@@ -1,0 +1,4794 @@
+{
+	"info": {
+		"_postman_id": "859417c3-dc08-4273-a4b3-79afc71e29bb",
+		"name": "Grocery APIs",
+		"description": "This is Grocery shop application APIs built in Express.js (Typescript), MySQL, Docker.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20048469"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Admin Login | {{host}}/api/admin/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData).to.have.property('success');",
+									"  pm.expect(responseData).to.have.property('message');",
+									"  pm.expect(responseData).to.have.property('data');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Success field is a boolean value\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.success).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Message field is a string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.message).to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Data field should be empty\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data).to.be.empty;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@example.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/admin/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"login"
+							]
+						},
+						"description": "### Admin Login\n\nThis endpoint is used to authenticate an admin user.\n\n#### Request Body\n\n- `email` (string, required): The email of the admin user.\n- `password` (string, required): The password of the admin user.\n    \n\nExample:\n\n``` json\n{\n  \"email\": \"example@example.com\",\n  \"password\": \"********\"\n}\n\n ```\n\n#### Response\n\nThe response will include the authentication token for the admin user.\n\nExample:\n\n``` json\n{\n  \"token\": \"********\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Admin Login | {{host}}/api/admin/login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"admin@example.com\",\r\n    \"password\": \"12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/admin/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "434"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1b2-UviUUzpN3ZFzn+1uw36kyV6a8AQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 09:47:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Logged in successfully!\",\n    \"data\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ik11a2VzaCBLYXJuIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsIm1vYmlsZV9udW1iZXIiOjg5NzY1NDMyMTAsInJvbGUiOjEsInN0YXR1cyI6MSwiY3JlYXRlZF9hdCI6IjIwMjQtMDQtMjBUMTU6MjI6MDkuMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTA0LTIwVDE1OjIyOjA5LjAwMFoiLCJpYXQiOjE3MTQyOTc2MzEsImV4cCI6MTcxNDM4NDAzMX0.ABff-lL3cHDM77tVDs8775FhwiC9S-rvi-rzNecw9s0\"\n}"
+						},
+						{
+							"name": "Admin Login | {{host}}/api/admin/login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"admin@example.com\",\r\n    \"password\": \"1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/admin/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "434"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1b2-JVTi15Y0cfLOaOd36A5QCvFfbkI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 09:49:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Logged in successfully!\",\n    \"data\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ik11a2VzaCBLYXJuIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsIm1vYmlsZV9udW1iZXIiOjg5NzY1NDMyMTAsInJvbGUiOjEsInN0YXR1cyI6MSwiY3JlYXRlZF9hdCI6IjIwMjQtMDQtMjBUMTU6MjI6MDkuMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTA0LTIwVDE1OjIyOjA5LjAwMFoiLCJpYXQiOjE3MTQyOTc3ODksImV4cCI6MTcxNDM4NDE4OX0.v1DgZ-7tP4MuThVBz7jayAyMXd2AoLkMSiBiVm9Fz94\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get Category | {{host}}/api/category/get-category/3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 404\", function () {",
+									"  pm.expect(pm.response.code).to.equal(404);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the 'success' field\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData).to.have.property(\"success\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Success field is of boolean type\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.success).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Message field is an empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.message).to.be.a('string').and.to.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Data field should be null\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.data).to.be.null;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/category/get-category/4",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"category",
+								"get-category",
+								"4"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Category | {{host}}/api/category/get-category/3",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/category/get-category/4",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"category",
+										"get-category",
+										"4"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "119"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"77-flkojNC14uoOZAK11uurQTpKBVw\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 10:52:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Data found!\",\n    \"data\": [\n        {\n            \"id\": 4,\n            \"name\": \"Bakery\",\n            \"image_url\": \"https://example.com/bakery.jpg\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get  All Categories | {{host}}/api/category/all-categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.success).to.exist;",
+									"    pm.expect(responseData.message).to.exist;",
+									"    pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Data is an array with at least one element\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.data).to.be.an('array');",
+									"    pm.expect(responseData.data).to.have.lengthOf.at.least(1);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Image_url is a valid URL format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.data).to.be.an('array');",
+									"    responseData.data.forEach(function(category){",
+									"        pm.expect(category.image_url).to.match(/^https?:\\/\\/[^\\s/$.?#].[^\\s]*$/);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/category/all-categories",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"category",
+								"all-categories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get  All Categories | {{host}}/api/category/all-categories",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/category/all-categories",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"category",
+										"all-categories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "657"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"291-IzXXhC55xjIQu0Bv0uPqa4h6cnU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 10:53:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Data found!\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Fruits\",\n            \"image_url\": \"https://example.com/fruits.jpg\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Dairy Products\",\n            \"image_url\": \"https://example.com/dairy-products.jpg\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Bakery\",\n            \"image_url\": \"https://example.com/bakery.jpg\"\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Stationary\",\n            \"image_url\": \"https://example.com/stationary.jpg\"\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Fruits\",\n            \"image_url\": \"https://example.com/fruits.jpg\"\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Dairy Products\",\n            \"image_url\": \"https://example.com/dairy-products.jpg\"\n        },\n        {\n            \"id\": 8,\n            \"name\": \"Vegetables\",\n            \"image_url\": \"https://example.com/vegetables.jpg\"\n        },\n        {\n            \"id\": 9,\n            \"name\": \"Bakery\",\n            \"image_url\": \"https://example.com/bakery.jpg\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Save Category | {{host}}/api/category/save",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData).to.have.property('success');",
+									"    pm.expect(responseData).to.have.property('message');",
+									"    pm.expect(responseData).to.have.property('data');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the 'success' field is a boolean\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.success).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the 'message' field is a string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.message).to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the 'data' field is an object\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.data).to.exist.and.to.be.an('object');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categories\": [\r\n        {\r\n            \"name\": \"Fruits\",\r\n            \"image_url\": \"https://example.com/fruits.jpg\"\r\n        },\r\n        {\r\n            \"name\": \"Dairy Products\",\r\n            \"image_url\": \"https://example.com/dairy-products.jpg\"\r\n        },\r\n        {\r\n            \"name\": \"Vegetables\",\r\n            \"image_url\": \"https://example.com/vegetables.jpg\"\r\n        },\r\n        {\r\n            \"name\": \"Bakery\",\r\n            \"image_url\": \"https://example.com/bakery.jpg\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/category/save",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"category",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category | {{host}}/api/category/update/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has required fields\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.success).to.exist;",
+									"  pm.expect(responseData.message).to.exist;",
+									"  pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Success field is a boolean\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.success).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Message field is a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Data field is an object\", function() {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.data).to.be.an('object');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Dairy Products\",\r\n    \"image_url\": \"https://example.com/dairy-products.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/category/update/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"category",
+								"update",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category | {{host}}/api/category/delete/3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 500\", function () {",
+									"  pm.response.to.have.status(500);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.success).to.exist;",
+									"    pm.expect(responseData.message).to.exist;",
+									"    pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Success is a boolean value\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.success).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Message is a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Data is null\", function () {",
+									"  pm.expect(pm.response.json().data).to.be.null;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/category/delete/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"category",
+								"delete",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Items",
+			"item": [
+				{
+					"name": "Save Items | {{host}}/api/item/save",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has required fields\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.success).to.exist;",
+									"  pm.expect(responseData.message).to.exist;",
+									"  pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Success field is a boolean\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData.success).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Message field is a string\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.message).to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Data field is an object\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.data).to.be.an('object');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"name\": \"Pen\",\r\n            \"price\": 1.99,\r\n            \"category_id\": 5,\r\n            \"description\": \"Blue ballpoint pen\",\r\n            \"image_url\": \"https://example.com/pen.jpg\",\r\n            \"quantity\": 50\r\n        },\r\n        {\r\n            \"name\": \"Notebook\",\r\n            \"price\": 2.50,\r\n            \"category_id\": 5,\r\n            \"description\": \"A5 lined notebook\",\r\n            \"image_url\": \"https://example.com/notebook.jpg\",\r\n            \"quantity\": 40\r\n        },\r\n        {\r\n            \"name\": \"Pencil\",\r\n            \"price\": 0.99,\r\n            \"category_id\": 5,\r\n            \"description\": \"HB graphite pencil\",\r\n            \"image_url\": \"https://example.com/pencil.jpg\",\r\n            \"quantity\": 30\r\n        },\r\n        {\r\n            \"name\": \"Stapler\",\r\n            \"price\": 5.99,\r\n            \"category_id\": 5,\r\n            \"description\": \"Office stapler\",\r\n            \"image_url\": \"https://example.com/stapler.jpg\",\r\n            \"quantity\": 60\r\n        },\r\n        {\r\n            \"name\": \"Eraser\",\r\n            \"price\": 0.50,\r\n            \"category_id\": 5,\r\n            \"description\": \"Rubber eraser\",\r\n            \"image_url\": \"https://example.com/eraser.jpg\",\r\n            \"quantity\": 70\r\n        },\r\n        {\r\n            \"name\": \"Ruler\",\r\n            \"price\": 1.25,\r\n            \"category_id\": 5,\r\n            \"description\": \"30cm plastic ruler\",\r\n            \"image_url\": \"https://example.com/ruler.jpg\",\r\n            \"quantity\": 35\r\n        },\r\n        {\r\n            \"name\": \"Highlighter\",\r\n            \"price\": 1.99,\r\n            \"category_id\": 5,\r\n            \"description\": \"Yellow highlighter pen\",\r\n            \"image_url\": \"https://example.com/highlighter.jpg\",\r\n            \"quantity\": 45\r\n        },\r\n        {\r\n            \"name\": \"Scissors\",\r\n            \"price\": 3.99,\r\n            \"category_id\": 5,\r\n            \"description\": \"Stainless steel scissors\",\r\n            \"image_url\": \"https://example.com/scissors.jpg\",\r\n            \"quantity\": 55\r\n        },\r\n        {\r\n            \"name\": \"Glue Stick\",\r\n            \"price\": 2.49,\r\n            \"category_id\": 5,\r\n            \"description\": \"15g glue stick\",\r\n            \"image_url\": \"https://example.com/glue_stick.jpg\",\r\n            \"quantity\": 65\r\n        },\r\n        {\r\n            \"name\": \"Whiteboard Marker\",\r\n            \"price\": 1.75,\r\n            \"category_id\": 5,\r\n            \"description\": \"Black whiteboard marker\",\r\n            \"image_url\": \"https://example.com/whiteboard_marker.jpg\",\r\n            \"quantity\": 75\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/grocery-item/save",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"grocery-item",
+								"save"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Save Items | {{host}}/api/item/save",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"name\": \"Pen\",\r\n            \"price\": 1.99,\r\n            \"category_id\": 5,\r\n            \"description\": \"Blue ballpoint pen\",\r\n            \"image_url\": \"https://example.com/pen.jpg\",\r\n            \"quantity\": 50\r\n        },\r\n        {\r\n            \"name\": \"Notebook\",\r\n            \"price\": 2.50,\r\n            \"category_id\": 5,\r\n            \"description\": \"A5 lined notebook\",\r\n            \"image_url\": \"https://example.com/notebook.jpg\",\r\n            \"quantity\": 40\r\n        },\r\n        {\r\n            \"name\": \"Pencil\",\r\n            \"price\": 0.99,\r\n            \"category_id\": 5,\r\n            \"description\": \"HB graphite pencil\",\r\n            \"image_url\": \"https://example.com/pencil.jpg\",\r\n            \"quantity\": 30\r\n        },\r\n        {\r\n            \"name\": \"Stapler\",\r\n            \"price\": 5.99,\r\n            \"category_id\": 5,\r\n            \"description\": \"Office stapler\",\r\n            \"image_url\": \"https://example.com/stapler.jpg\",\r\n            \"quantity\": 60\r\n        },\r\n        {\r\n            \"name\": \"Eraser\",\r\n            \"price\": 0.50,\r\n            \"category_id\": 5,\r\n            \"description\": \"Rubber eraser\",\r\n            \"image_url\": \"https://example.com/eraser.jpg\",\r\n            \"quantity\": 70\r\n        },\r\n        {\r\n            \"name\": \"Ruler\",\r\n            \"price\": 1.25,\r\n            \"category_id\": 5,\r\n            \"description\": \"30cm plastic ruler\",\r\n            \"image_url\": \"https://example.com/ruler.jpg\",\r\n            \"quantity\": 35\r\n        },\r\n        {\r\n            \"name\": \"Highlighter\",\r\n            \"price\": 1.99,\r\n            \"category_id\": 5,\r\n            \"description\": \"Yellow highlighter pen\",\r\n            \"image_url\": \"https://example.com/highlighter.jpg\",\r\n            \"quantity\": 45\r\n        },\r\n        {\r\n            \"name\": \"Scissors\",\r\n            \"price\": 3.99,\r\n            \"category_id\": 5,\r\n            \"description\": \"Stainless steel scissors\",\r\n            \"image_url\": \"https://example.com/scissors.jpg\",\r\n            \"quantity\": 55\r\n        },\r\n        {\r\n            \"name\": \"Glue Stick\",\r\n            \"price\": 2.49,\r\n            \"category_id\": 5,\r\n            \"description\": \"15g glue stick\",\r\n            \"image_url\": \"https://example.com/glue_stick.jpg\",\r\n            \"quantity\": 65\r\n        },\r\n        {\r\n            \"name\": \"Whiteboard Marker\",\r\n            \"price\": 1.75,\r\n            \"category_id\": 5,\r\n            \"description\": \"Black whiteboard marker\",\r\n            \"image_url\": \"https://example.com/whiteboard_marker.jpg\",\r\n            \"quantity\": 75\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/grocery-item/save",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"grocery-item",
+										"save"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "209"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d1-pMH/xZQLT9HRg39+QazWvN5SmNk\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 10:17:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Item saved successfully!\",\n    \"data\": {\n        \"fieldCount\": 0,\n        \"affectedRows\": 10,\n        \"insertId\": 27,\n        \"info\": \"Records: 10  Duplicates: 0  Warnings: 0\",\n        \"serverStatus\": 2,\n        \"warningStatus\": 0,\n        \"changedRows\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Item Details| {{host}}/api/item/update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.success).to.exist;",
+									"    pm.expect(responseData.message).to.exist;",
+									"    pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"The value of 'success' is a boolean\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.success).to.exist.and.to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Value of message is a string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.message).to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Value of data is an object\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data).to.be.an('object');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Apple\",\r\n    \"price\": 57.00,\r\n    \"description\": \"Fresh and juicy green apple\",\r\n    \"image_url\": \"https://example.com/apple.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/grocery-item/update/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"grocery-item",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Item Details| {{host}}/api/item/update",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Apple\",\r\n    \"price\": 57.00,\r\n    \"description\": \"Fresh and juicy green apple\",\r\n    \"image_url\": \"https://example.com/apple.jpg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/grocery-item/update/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"grocery-item",
+										"update",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "220"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"dc-pEw0crhBAdoceMapXgGcD9D0v0c\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 10:23:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Item saved successfully!\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Apple\",\n            \"price\": \"57.00\",\n            \"category_id\": 1,\n            \"description\": \"Fresh and juicy green apple\",\n            \"image_url\": \"https://example.com/apple.jpg\",\n            \"quantity\": 20\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Item | {{host}}/api/grocery-item/delete/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 500\", function () {",
+									"  pm.expect(pm.response.code).to.equal(500);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.success).to.exist;",
+									"    pm.expect(responseData.message).to.exist;",
+									"    pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Success is a boolean value\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.success).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Message is a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.message).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Data should be null\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.data).to.be.null;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/grocery-item/delete/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"grocery-item",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Inventory| {{host}}/api/item/update/1/inventory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData).to.have.property('success');",
+									"    pm.expect(responseData).to.have.property('message');",
+									"    pm.expect(responseData).to.have.property('data');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Success field is a boolean\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.success).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Message field is a string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.message).to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Data field is an object\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.data).to.be.an('object');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/grocery-item/update/1/inventory",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"grocery-item",
+								"update",
+								"1",
+								"inventory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Items List | {{host}}/api/item/all-items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Price is a non-negative number\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.data).to.be.an('array');",
+									"    ",
+									"    responseData.data.forEach(function(item) {",
+									"        pm.expect(item.price).to.be.a('number');",
+									"        pm.expect(item.price).to.be.at.least(0);",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Quantity is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.data).to.be.an('array');",
+									"    responseData.data.forEach(function(item) {",
+									"        pm.expect(item.quantity).to.be.a('number').and.to.be.greaterThanOrEqual(0, \"Quantity should be a non-negative integer\");",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the 'data' array is present and not empty\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.data).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/grocery-item/all-items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"grocery-item",
+								"all-items"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Items List | {{host}}/api/item/all-items",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/grocery-item/all-items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"grocery-item",
+										"all-items"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "6048"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"17a0-eP4aTjXMsTwZXCOyS21qAXFbMrE\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 10:18:31 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Data found!\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Apple\",\n            \"price\": \"57.00\",\n            \"category_id\": 1,\n            \"description\": \"Fresh and juicy red apple\",\n            \"image_url\": \"https://example.com/apple.jpg\",\n            \"quantity\": 20\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Orange\",\n            \"price\": \"5.00\",\n            \"category_id\": 1,\n            \"description\": \"Fresh and juicy orange\",\n            \"image_url\": \"https://example.com/orange.jpg\",\n            \"quantity\": 60\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Banana\",\n            \"price\": \"10.00\",\n            \"category_id\": 1,\n            \"description\": \"Fresh bananas\",\n            \"image_url\": \"https://example.com/bananas.jpg\",\n            \"quantity\": 97\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Fresh Milk (1L)\",\n            \"price\": \"2.49\",\n            \"category_id\": 2,\n            \"description\": \"Farm-fresh cow's milk\",\n            \"image_url\": \"https://example.com/milk.jpg\",\n            \"quantity\": 50\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Greek Yogurt (500g)\",\n            \"price\": \"3.99\",\n            \"category_id\": 2,\n            \"description\": \"Thick and creamy Greek yogurt\",\n            \"image_url\": \"https://example.com/yogurt.jpg\",\n            \"quantity\": 36\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Salted Butter (200g)\",\n            \"price\": \"2.79\",\n            \"category_id\": 2,\n            \"description\": \"Rich and creamy salted butter\",\n            \"image_url\": \"https://example.com/butter.jpg\",\n            \"quantity\": 30\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Cheddar Cheese (250g)\",\n            \"price\": \"4.99\",\n            \"category_id\": 2,\n            \"description\": \"Sharp and flavorful cheddar cheese\",\n            \"image_url\": \"https://example.com/cheese.jpg\",\n            \"quantity\": 0\n        },\n        {\n            \"id\": 8,\n            \"name\": \"Eggs (Dozen)\",\n            \"price\": \"2.99\",\n            \"category_id\": 2,\n            \"description\": \"Farm-fresh eggs\",\n            \"image_url\": \"https://example.com/eggs.jpg\",\n            \"quantity\": 70\n        },\n        {\n            \"id\": 9,\n            \"name\": \"Whipped Cream (200g)\",\n            \"price\": \"1.99\",\n            \"category_id\": 2,\n            \"description\": \"Light and fluffy whipped cream\",\n            \"image_url\": \"https://example.com/whipped_cream.jpg\",\n            \"quantity\": 35\n        },\n        {\n            \"id\": 10,\n            \"name\": \"Cottage Cheese (500g)\",\n            \"price\": \"3.49\",\n            \"category_id\": 2,\n            \"description\": \"Smooth and creamy cottage cheese\",\n            \"image_url\": \"https://example.com/cottage_cheese.jpg\",\n            \"quantity\": 45\n        },\n        {\n            \"id\": 11,\n            \"name\": \"Plain Yogurt (1kg)\",\n            \"price\": \"3.25\",\n            \"category_id\": 2,\n            \"description\": \"Plain and creamy yogurt\",\n            \"image_url\": \"https://example.com/plain_yogurt.jpg\",\n            \"quantity\": 55\n        },\n        {\n            \"id\": 12,\n            \"name\": \"Vanilla Ice Cream (1L)\",\n            \"price\": \"4.50\",\n            \"category_id\": 2,\n            \"description\": \"Rich and creamy vanilla ice cream\",\n            \"image_url\": \"https://example.com/ice_cream.jpg\",\n            \"quantity\": 65\n        },\n        {\n            \"id\": 13,\n            \"name\": \"Chocolate Milk (500ml)\",\n            \"price\": \"1.75\",\n            \"category_id\": 2,\n            \"description\": \"Delicious chocolate-flavored milk\",\n            \"image_url\": \"https://example.com/chocolate_milk.jpg\",\n            \"quantity\": 75\n        },\n        {\n            \"id\": 14,\n            \"name\": \"Apple\",\n            \"price\": \"51.00\",\n            \"category_id\": 1,\n            \"description\": \"Fresh and juicy red apple\",\n            \"image_url\": \"https://example.com/apple.jpg\",\n            \"quantity\": 10\n        },\n        {\n            \"id\": 15,\n            \"name\": \"Orange\",\n            \"price\": \"5.00\",\n            \"category_id\": 1,\n            \"description\": \"Fresh and juicy orange\",\n            \"image_url\": \"https://example.com/orange.jpg\",\n            \"quantity\": 100\n        },\n        {\n            \"id\": 16,\n            \"name\": \"Banana\",\n            \"price\": \"10.00\",\n            \"category_id\": 1,\n            \"description\": \"Fresh bananas\",\n            \"image_url\": \"https://example.com/bananas.jpg\",\n            \"quantity\": 120\n        },\n        {\n            \"id\": 17,\n            \"name\": \"Fresh Milk (1L)\",\n            \"price\": \"2.49\",\n            \"category_id\": 2,\n            \"description\": \"Farm-fresh cow's milk\",\n            \"image_url\": \"https://example.com/milk.jpg\",\n            \"quantity\": 50\n        },\n        {\n            \"id\": 18,\n            \"name\": \"Greek Yogurt (500g)\",\n            \"price\": \"3.99\",\n            \"category_id\": 2,\n            \"description\": \"Thick and creamy Greek yogurt\",\n            \"image_url\": \"https://example.com/yogurt.jpg\",\n            \"quantity\": 40\n        },\n        {\n            \"id\": 19,\n            \"name\": \"Salted Butter (200g)\",\n            \"price\": \"2.79\",\n            \"category_id\": 2,\n            \"description\": \"Rich and creamy salted butter\",\n            \"image_url\": \"https://example.com/butter.jpg\",\n            \"quantity\": 30\n        },\n        {\n            \"id\": 20,\n            \"name\": \"Cheddar Cheese (250g)\",\n            \"price\": \"4.99\",\n            \"category_id\": 2,\n            \"description\": \"Sharp and flavorful cheddar cheese\",\n            \"image_url\": \"https://example.com/cheese.jpg\",\n            \"quantity\": 60\n        },\n        {\n            \"id\": 21,\n            \"name\": \"Eggs (Dozen)\",\n            \"price\": \"2.99\",\n            \"category_id\": 2,\n            \"description\": \"Farm-fresh eggs\",\n            \"image_url\": \"https://example.com/eggs.jpg\",\n            \"quantity\": 70\n        },\n        {\n            \"id\": 22,\n            \"name\": \"Whipped Cream (200g)\",\n            \"price\": \"1.99\",\n            \"category_id\": 2,\n            \"description\": \"Light and fluffy whipped cream\",\n            \"image_url\": \"https://example.com/whipped_cream.jpg\",\n            \"quantity\": 35\n        },\n        {\n            \"id\": 23,\n            \"name\": \"Cottage Cheese (500g)\",\n            \"price\": \"3.49\",\n            \"category_id\": 2,\n            \"description\": \"Smooth and creamy cottage cheese\",\n            \"image_url\": \"https://example.com/cottage_cheese.jpg\",\n            \"quantity\": 45\n        },\n        {\n            \"id\": 24,\n            \"name\": \"Plain Yogurt (1kg)\",\n            \"price\": \"3.25\",\n            \"category_id\": 2,\n            \"description\": \"Plain and creamy yogurt\",\n            \"image_url\": \"https://example.com/plain_yogurt.jpg\",\n            \"quantity\": 55\n        },\n        {\n            \"id\": 25,\n            \"name\": \"Vanilla Ice Cream (1L)\",\n            \"price\": \"4.50\",\n            \"category_id\": 2,\n            \"description\": \"Rich and creamy vanilla ice cream\",\n            \"image_url\": \"https://example.com/ice_cream.jpg\",\n            \"quantity\": 65\n        },\n        {\n            \"id\": 26,\n            \"name\": \"Chocolate Milk (500ml)\",\n            \"price\": \"1.75\",\n            \"category_id\": 2,\n            \"description\": \"Delicious chocolate-flavored milk\",\n            \"image_url\": \"https://example.com/chocolate_milk.jpg\",\n            \"quantity\": 75\n        },\n        {\n            \"id\": 27,\n            \"name\": \"Pen\",\n            \"price\": \"1.99\",\n            \"category_id\": 5,\n            \"description\": \"Blue ballpoint pen\",\n            \"image_url\": \"https://example.com/pen.jpg\",\n            \"quantity\": 50\n        },\n        {\n            \"id\": 28,\n            \"name\": \"Notebook\",\n            \"price\": \"2.50\",\n            \"category_id\": 5,\n            \"description\": \"A5 lined notebook\",\n            \"image_url\": \"https://example.com/notebook.jpg\",\n            \"quantity\": 40\n        },\n        {\n            \"id\": 29,\n            \"name\": \"Pencil\",\n            \"price\": \"0.99\",\n            \"category_id\": 5,\n            \"description\": \"HB graphite pencil\",\n            \"image_url\": \"https://example.com/pencil.jpg\",\n            \"quantity\": 30\n        },\n        {\n            \"id\": 30,\n            \"name\": \"Stapler\",\n            \"price\": \"5.99\",\n            \"category_id\": 5,\n            \"description\": \"Office stapler\",\n            \"image_url\": \"https://example.com/stapler.jpg\",\n            \"quantity\": 60\n        },\n        {\n            \"id\": 31,\n            \"name\": \"Eraser\",\n            \"price\": \"0.50\",\n            \"category_id\": 5,\n            \"description\": \"Rubber eraser\",\n            \"image_url\": \"https://example.com/eraser.jpg\",\n            \"quantity\": 70\n        },\n        {\n            \"id\": 32,\n            \"name\": \"Ruler\",\n            \"price\": \"1.25\",\n            \"category_id\": 5,\n            \"description\": \"30cm plastic ruler\",\n            \"image_url\": \"https://example.com/ruler.jpg\",\n            \"quantity\": 35\n        },\n        {\n            \"id\": 33,\n            \"name\": \"Highlighter\",\n            \"price\": \"1.99\",\n            \"category_id\": 5,\n            \"description\": \"Yellow highlighter pen\",\n            \"image_url\": \"https://example.com/highlighter.jpg\",\n            \"quantity\": 45\n        },\n        {\n            \"id\": 34,\n            \"name\": \"Scissors\",\n            \"price\": \"3.99\",\n            \"category_id\": 5,\n            \"description\": \"Stainless steel scissors\",\n            \"image_url\": \"https://example.com/scissors.jpg\",\n            \"quantity\": 55\n        },\n        {\n            \"id\": 35,\n            \"name\": \"Glue Stick\",\n            \"price\": \"2.49\",\n            \"category_id\": 5,\n            \"description\": \"15g glue stick\",\n            \"image_url\": \"https://example.com/glue_stick.jpg\",\n            \"quantity\": 65\n        },\n        {\n            \"id\": 36,\n            \"name\": \"Whiteboard Marker\",\n            \"price\": \"1.75\",\n            \"category_id\": 5,\n            \"description\": \"Black whiteboard marker\",\n            \"image_url\": \"https://example.com/whiteboard_marker.jpg\",\n            \"quantity\": 75\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Item | {{host}}/api/item/get-item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Id is a non-negative integer\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data).to.be.an('array');",
+									"  ",
+									"  responseData.data.forEach(function(item) {",
+									"    pm.expect(item.id).to.be.a('number').and.to.be.at.least(0);",
+									"  });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Price is a positive number\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data).to.be.an('array');",
+									"",
+									"  responseData.data.forEach(function(item) {",
+									"    pm.expect(item.price).to.be.a('number').and.to.be.above(0);",
+									"  });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Category_id is a non-negative integer\", function() {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data).to.be.an('array');",
+									"  ",
+									"  responseData.data.forEach(function(item) {",
+									"    pm.expect(item.category_id).to.be.a('number').and.to.be.at.least(0);",
+									"  });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/grocery-item/get-item/25",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"grocery-item",
+								"get-item",
+								"25"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Item | {{host}}/api/item/get-item",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/grocery-item/get-item/25",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"grocery-item",
+										"get-item",
+										"25"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "234"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ea-3sh1sAEOUOiLXlbntMQSuot/ynk\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 10:18:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Data found!\",\n    \"data\": [\n        {\n            \"id\": 25,\n            \"name\": \"Vanilla Ice Cream (1L)\",\n            \"price\": \"4.50\",\n            \"category_id\": 2,\n            \"description\": \"Rich and creamy vanilla ice cream\",\n            \"image_url\": \"https://example.com/ice_cream.jpg\",\n            \"quantity\": 65\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Items By Category | {{host}}/api/item/all-items-by-category/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.id).to.exist;",
+									"    pm.expect(responseData.name).to.exist;",
+									"    pm.expect(responseData.price).to.exist;",
+									"    pm.expect(responseData.category_id).to.exist;",
+									"    pm.expect(responseData.description).to.exist;",
+									"    pm.expect(responseData.image_url).to.exist;",
+									"    pm.expect(responseData.quantity).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Name is a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data).to.be.an('array');",
+									"  ",
+									"  responseData.data.forEach(function(item) {",
+									"    pm.expect(item.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
+									"  });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Price is a positive number\", function () {",
+									"  const responseData = pm.response.json();",
+									"  const data = responseData.data;",
+									"",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(data).to.be.an('array').that.is.not.empty;",
+									"",
+									"  data.forEach(function(item) {",
+									"    pm.expect(item.price).to.be.a('number');",
+									"    pm.expect(item.price).to.be.above(0);",
+									"  });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Quantity is a non-negative integer\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData.data).to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"  ",
+									"  responseData.data.forEach(function(item) {",
+									"    pm.expect(item.quantity).to.be.a('number').and.to.be.at.least(0);",
+									"  });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/grocery-item/all-items-by-category/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"grocery-item",
+								"all-items-by-category",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Items By Category | {{host}}/api/item/all-items-by-category/1",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/grocery-item/all-items-by-category/2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"grocery-item",
+										"all-items-by-category",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3576"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"df8-J1fZB5kp2t743ZyS0mtEOLyqubQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 10:19:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Data found!\",\n    \"data\": [\n        {\n            \"id\": 4,\n            \"name\": \"Fresh Milk (1L)\",\n            \"price\": \"2.49\",\n            \"category_id\": 2,\n            \"description\": \"Farm-fresh cow's milk\",\n            \"image_url\": \"https://example.com/milk.jpg\",\n            \"quantity\": 50\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Greek Yogurt (500g)\",\n            \"price\": \"3.99\",\n            \"category_id\": 2,\n            \"description\": \"Thick and creamy Greek yogurt\",\n            \"image_url\": \"https://example.com/yogurt.jpg\",\n            \"quantity\": 36\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Salted Butter (200g)\",\n            \"price\": \"2.79\",\n            \"category_id\": 2,\n            \"description\": \"Rich and creamy salted butter\",\n            \"image_url\": \"https://example.com/butter.jpg\",\n            \"quantity\": 30\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Cheddar Cheese (250g)\",\n            \"price\": \"4.99\",\n            \"category_id\": 2,\n            \"description\": \"Sharp and flavorful cheddar cheese\",\n            \"image_url\": \"https://example.com/cheese.jpg\",\n            \"quantity\": 0\n        },\n        {\n            \"id\": 8,\n            \"name\": \"Eggs (Dozen)\",\n            \"price\": \"2.99\",\n            \"category_id\": 2,\n            \"description\": \"Farm-fresh eggs\",\n            \"image_url\": \"https://example.com/eggs.jpg\",\n            \"quantity\": 70\n        },\n        {\n            \"id\": 9,\n            \"name\": \"Whipped Cream (200g)\",\n            \"price\": \"1.99\",\n            \"category_id\": 2,\n            \"description\": \"Light and fluffy whipped cream\",\n            \"image_url\": \"https://example.com/whipped_cream.jpg\",\n            \"quantity\": 35\n        },\n        {\n            \"id\": 10,\n            \"name\": \"Cottage Cheese (500g)\",\n            \"price\": \"3.49\",\n            \"category_id\": 2,\n            \"description\": \"Smooth and creamy cottage cheese\",\n            \"image_url\": \"https://example.com/cottage_cheese.jpg\",\n            \"quantity\": 45\n        },\n        {\n            \"id\": 11,\n            \"name\": \"Plain Yogurt (1kg)\",\n            \"price\": \"3.25\",\n            \"category_id\": 2,\n            \"description\": \"Plain and creamy yogurt\",\n            \"image_url\": \"https://example.com/plain_yogurt.jpg\",\n            \"quantity\": 55\n        },\n        {\n            \"id\": 12,\n            \"name\": \"Vanilla Ice Cream (1L)\",\n            \"price\": \"4.50\",\n            \"category_id\": 2,\n            \"description\": \"Rich and creamy vanilla ice cream\",\n            \"image_url\": \"https://example.com/ice_cream.jpg\",\n            \"quantity\": 65\n        },\n        {\n            \"id\": 13,\n            \"name\": \"Chocolate Milk (500ml)\",\n            \"price\": \"1.75\",\n            \"category_id\": 2,\n            \"description\": \"Delicious chocolate-flavored milk\",\n            \"image_url\": \"https://example.com/chocolate_milk.jpg\",\n            \"quantity\": 75\n        },\n        {\n            \"id\": 17,\n            \"name\": \"Fresh Milk (1L)\",\n            \"price\": \"2.49\",\n            \"category_id\": 2,\n            \"description\": \"Farm-fresh cow's milk\",\n            \"image_url\": \"https://example.com/milk.jpg\",\n            \"quantity\": 50\n        },\n        {\n            \"id\": 18,\n            \"name\": \"Greek Yogurt (500g)\",\n            \"price\": \"3.99\",\n            \"category_id\": 2,\n            \"description\": \"Thick and creamy Greek yogurt\",\n            \"image_url\": \"https://example.com/yogurt.jpg\",\n            \"quantity\": 40\n        },\n        {\n            \"id\": 19,\n            \"name\": \"Salted Butter (200g)\",\n            \"price\": \"2.79\",\n            \"category_id\": 2,\n            \"description\": \"Rich and creamy salted butter\",\n            \"image_url\": \"https://example.com/butter.jpg\",\n            \"quantity\": 30\n        },\n        {\n            \"id\": 20,\n            \"name\": \"Cheddar Cheese (250g)\",\n            \"price\": \"4.99\",\n            \"category_id\": 2,\n            \"description\": \"Sharp and flavorful cheddar cheese\",\n            \"image_url\": \"https://example.com/cheese.jpg\",\n            \"quantity\": 60\n        },\n        {\n            \"id\": 21,\n            \"name\": \"Eggs (Dozen)\",\n            \"price\": \"2.99\",\n            \"category_id\": 2,\n            \"description\": \"Farm-fresh eggs\",\n            \"image_url\": \"https://example.com/eggs.jpg\",\n            \"quantity\": 70\n        },\n        {\n            \"id\": 22,\n            \"name\": \"Whipped Cream (200g)\",\n            \"price\": \"1.99\",\n            \"category_id\": 2,\n            \"description\": \"Light and fluffy whipped cream\",\n            \"image_url\": \"https://example.com/whipped_cream.jpg\",\n            \"quantity\": 35\n        },\n        {\n            \"id\": 23,\n            \"name\": \"Cottage Cheese (500g)\",\n            \"price\": \"3.49\",\n            \"category_id\": 2,\n            \"description\": \"Smooth and creamy cottage cheese\",\n            \"image_url\": \"https://example.com/cottage_cheese.jpg\",\n            \"quantity\": 45\n        },\n        {\n            \"id\": 24,\n            \"name\": \"Plain Yogurt (1kg)\",\n            \"price\": \"3.25\",\n            \"category_id\": 2,\n            \"description\": \"Plain and creamy yogurt\",\n            \"image_url\": \"https://example.com/plain_yogurt.jpg\",\n            \"quantity\": 55\n        },\n        {\n            \"id\": 25,\n            \"name\": \"Vanilla Ice Cream (1L)\",\n            \"price\": \"4.50\",\n            \"category_id\": 2,\n            \"description\": \"Rich and creamy vanilla ice cream\",\n            \"image_url\": \"https://example.com/ice_cream.jpg\",\n            \"quantity\": 65\n        },\n        {\n            \"id\": 26,\n            \"name\": \"Chocolate Milk (500ml)\",\n            \"price\": \"1.75\",\n            \"category_id\": 2,\n            \"description\": \"Delicious chocolate-flavored milk\",\n            \"image_url\": \"https://example.com/chocolate_milk.jpg\",\n            \"quantity\": 75\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register User | {{host}}/api/user/register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Schema is valid\", function () {",
+									"  var schema = {",
+									"    type: \"object\",",
+									"    properties: {",
+									"      success: {",
+									"        type: \"boolean\"",
+									"      },",
+									"      message: {",
+									"        type: \"string\"",
+									"      },",
+									"      data: {",
+									"        type: [\"object\", \"null\"]",
+									"      }",
+									"    },",
+									"    required: [\"success\", \"message\", \"data\"],",
+									"  };",
+									"",
+									"  var response = pm.response.json();",
+									"  pm.expect(tv4.validate(response, schema)).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Krishna Karn\",\r\n    \"email\": \"Krishna@example.com\",\r\n    \"mobile_number\": 1234561234,\r\n    \"password\": \"Krishna\",\r\n    \"address\": \"123 Main St, City, Country\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/user/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"register"
+							]
+						},
+						"description": "\nThe `POST /api/user/register` endpoint is used to register a new user. The request should include the user's name, email, mobile number, password, and address in the request body.\n\n### Request Body\n- `name` (string): The name of the user.\n- `email` (string): The email address of the user.\n- `mobile_number` (number): The mobile number of the user.\n- `password` (string): The password for the user account.\n- `address` (string): The address of the user.\n\n### Response\nThe response for this request is in JSON format with the following schema:\n```json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"success\": {\n      \"type\": \"boolean\"\n    },\n    \"message\": {\n      \"type\": \"string\"\n    },\n    \"data\": {\n      \"type\": \"null\"\n    }\n  }\n}\n```\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Login User | {{host}}/api/user/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"// Test for required fields - success, message, and data",
+									"pm.test(\"Response has required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.success).to.exist.and.to.be.a('boolean');",
+									"    pm.expect(responseData.message).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.data).to.exist.and.to.be.an('object');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.email).to.match(/^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Mobile number is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.data.mobile_number).to.be.a('number');",
+									"    pm.expect(responseData.data.mobile_number).to.be.at.least(0, \"Mobile number should be non-negative\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"krishna@example.com\",\r\n    \"password\": \"Krishna\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/user/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						},
+						"description": "\n### Login User\n\nThis endpoint allows users to log in by providing their email and password.\n\n#### Request Body\n- `email` (string, required): The email of the user.\n- `password` (string, required): The password of the user.\n\n#### Response\nThe response is a JSON object with the following properties:\n- `success` (boolean): Indicates if the login was successful.\n- `message` (string): A message related to the login process.\n- `data` (object): An object containing the user's information.\n  - `id` (number): The user's ID.\n  - `name` (string): The user's name.\n  - `email` (string): The user's email.\n  - `mobile_number` (number): The user's mobile number.\n  - `address` (string): The user's address.\n  - `role` (number): The user's role.\n  - `status` (number): The user's status.\n  - `created_at` (string): The timestamp when the user was created.\n  - `updated_at` (string): The timestamp when the user was last updated.\n  - `token` (string): The authentication token for the user.\n\n#### Example Response\n```json\n{\n    \"success\": true,\n    \"message\": \"\",\n    \"data\": {\n        \"id\": 0,\n        \"name\": \"\",\n        \"email\": \"\",\n        \"mobile_number\": 0,\n        \"address\": \"\",\n        \"role\": 0,\n        \"status\": 0,\n        \"created_at\": \"\",\n        \"updated_at\": \"\",\n        \"token\": \"\"\n    }\n}\n```\n\n#### JSON Schema\n```json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"success\": {\n            \"type\": \"boolean\"\n        },\n        \"message\": {\n            \"type\": \"string\"\n        },\n        \"data\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"id\": {\n                    \"type\": \"number\"\n                },\n                \"name\": {\n                    \"type\": \"string\"\n                },\n                \"email\": {\n                    \"type\": \"string\"\n                },\n                \"mobile_number\": {\n                    \"type\": \"number\"\n                },\n                \"address\": {\n                    \"type\": \"string\"\n                },\n                \"role\": {\n                    \"type\": \"number\"\n                },\n                \"status\": {\n                    \"type\": \"number\"\n                },\n                \"created_at\": {\n                    \"type\": \"string\"\n                },\n                \"updated_at\": {\n                    \"type\": \"string\"\n                },\n                \"token\": {\n                    \"type\": \"string\"\n                }\n            }\n        }\n    }\n}\n```\n"
+					},
+					"response": [
+						{
+							"name": "Login User | {{host}}/api/user/login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"krishna@example.com\",\r\n    \"password\": \"krishna\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/user/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "94"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5e-YC/3Jq0dD8AxZ+XGhjISYIHqL2w\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 09:57:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"Incorrect password, please enter a correct password!\",\n    \"data\": null\n}"
+						},
+						{
+							"name": "Login User | {{host}}/api/user/login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"krishna@example.com\",\r\n    \"password\": \"Krishna\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/user/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "725"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2d5-aZzNeER2Rd8uRH8F8JC/zELTCBQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 09:57:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Logged in successfully!\",\n    \"data\": {\n        \"id\": 5,\n        \"name\": \"Krishna Karn\",\n        \"email\": \"Krishna@example.com\",\n        \"mobile_number\": 1234561234,\n        \"address\": \"123 Main St, City, Country\",\n        \"role\": 2,\n        \"status\": 1,\n        \"created_at\": \"2024-04-28T09:55:57.000Z\",\n        \"updated_at\": \"2024-04-28T09:55:57.000Z\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6IktyaXNobmEgS2FybiIsImVtYWlsIjoiS3Jpc2huYUBleGFtcGxlLmNvbSIsIm1vYmlsZV9udW1iZXIiOjEyMzQ1NjEyMzQsImFkZHJlc3MiOiIxMjMgTWFpbiBTdCwgQ2l0eSwgQ291bnRyeSIsInJvbGUiOjIsInN0YXR1cyI6MSwiY3JlYXRlZF9hdCI6IjIwMjQtMDQtMjhUMDk6NTU6NTcuMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDI0LTA0LTI4VDA5OjU1OjU3LjAwMFoiLCJpYXQiOjE3MTQyOTgyNTgsImV4cCI6MTcxNjg5MDI1OH0.CjSGn3hybVpl1j8tBsnRNMeXiruP456R9cFzDnALBTw\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update User (Admin/User both) | {{host}}/api/user/update-user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The success field should be true\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.success).to.be.true;",
+									"});",
+									"",
+									"",
+									"pm.test(\"The 'message' field is an empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.message).to.be.a('string').and.to.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"The data field should be null\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.data).to.be.null;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is 'application/json'\", function () {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equal('application/json');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Krishna Karn\",\r\n    \"address\": \"123 Main St, City, Country\",\r\n    \"password\": \"hello\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/user/update-user",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"update-user"
+							]
+						},
+						"description": "### Update User Information\n\nThis endpoint allows the user to update their information.\n\n#### Request Body\n\n- `id` (number, optional): The id of the user if admin wants to update.\n- `name` (string, optional): The updated name of the user.\n- `address` (string, optional): The updated address of the user.\n- `password` (string, optional): The user's password for authentication.\n    \n\n#### Response\n\n- `Status: 302`\n- `Content-Type: application/json`\n    \n\n##### Successful Response\n\n``` json\n{\n    \"success\": true,\n    \"message\": \"\",\n    \"data\": {\n        \"id\": 0,\n        \"name\": \"\",\n        \"email\": \"\",\n        \"mobile_number\": 0,\n        \"address\": \"\",\n        \"role\": 0,\n        \"status\": 0,\n        \"created_at\": \"\",\n        \"updated_at\": \"\"\n    }\n}\n\n ```\n\n##### Failed Response\n\nIn case of a failed response, specific error messages and status codes will be provided to indicate the reason for the failure."
+					},
+					"response": [
+						{
+							"name": "Update User | {{host}}/api/user/update-user/1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Krishna Karn\",\r\n    \"address\": \"123 Main St, City, Country\",\r\n    \"password\": \"hello\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/user/update-user",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"update-user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "289"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"121-fsOG9XS9vKTa/R8eSQ9hBWnGv+M\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 10:04:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Data updated successfully!\",\n    \"data\": {\n        \"id\": 5,\n        \"name\": \"Krishna Karn\",\n        \"email\": \"Krishna@example.com\",\n        \"mobile_number\": 1234561234,\n        \"address\": \"123 Main St, City, Country\",\n        \"role\": 2,\n        \"status\": 1,\n        \"created_at\": \"2024-04-28T09:55:57.000Z\",\n        \"updated_at\": \"2024-04-28T10:04:47.000Z\"\n    }\n}"
+						},
+						{
+							"name": "Update User | {{host}}/api/user/update-user/1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Krishna Karn\",\r\n    \"address\": \"123 Main St, City, Country\",\r\n    \"password\": \"hello\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/user/update-user",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"update-user"
+									]
+								}
+							},
+							"status": "Found",
+							"code": 302,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "113"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"71-6jf8LB2XPT5R15cZ70wSMDfYaCs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 10:05:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"Sorry, this password is already exists, please choose another password.\",\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete User by User/Admin | {{host}}/api/user/delete-user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.success).to.exist;",
+									"    pm.expect(responseData.message).to.exist;",
+									"    pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the 'success' field is true\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.success).to.be.true;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the 'data' field is an object\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.data).to.be.an('object');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/user/delete-user",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"delete-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Data by Admin | {{host}}/api/user/get-user/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the success field in the response\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.success).to.exist.and.to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the 'data' object in the response\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.data).to.exist.and.to.be.an('object');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Name and email fields are non-empty strings\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name field should not be empty\");",
+									"  pm.expect(responseData.data.email).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Email field should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/user/get-user/5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"get-user",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All User by Admin | {{host}}/api/user/get-all-users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response content type is 'application/json'\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the 'success' field is true\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.success).to.be.true;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that 'users' array is present and contains at least one element\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.users).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/user/get-all-users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"get-all-users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Add To Cart | {{host}}/api/cart/add-to-cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has required fields\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.success).to.exist;",
+									"  pm.expect(responseData.message).to.exist;",
+									"  pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Success field is a boolean\", function() {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData.success).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Message field is a string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.message).to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Data field is an object\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data).to.be.an('object');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"item_id\": 4,\r\n            \"quantity\": 5\r\n        },\r\n        {\r\n            \"item_id\": 1,\r\n            \"quantity\": 10\r\n        },\r\n        {\r\n            \"item_id\": 3,\r\n            \"quantity\": 5\r\n        },\r\n        {\r\n            \"item_id\": 9,\r\n            \"quantity\": 12\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/cart/add-to-cart",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"add-to-cart"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add To Cart | {{host}}/api/cart/add-to-cart",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"item_id\": 4,\r\n            \"quantity\": 5\r\n        },\r\n        {\r\n            \"item_id\": 1,\r\n            \"quantity\": 10\r\n        },\r\n        {\r\n            \"item_id\": 3,\r\n            \"quantity\": 5\r\n        },\r\n        {\r\n            \"item_id\": 9,\r\n            \"quantity\": 12\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/cart/add-to-cart",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"cart",
+										"add-to-cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "207"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"cf-25IjrCmHMJzI3EgZ/G+xcbHMNN8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 10:56:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Item saved successfully!\",\n    \"data\": {\n        \"fieldCount\": 0,\n        \"affectedRows\": 4,\n        \"insertId\": 13,\n        \"info\": \"Records: 4  Duplicates: 0  Warnings: 0\",\n        \"serverStatus\": 2,\n        \"warningStatus\": 0,\n        \"changedRows\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Items Quantity in Cart | {{host}}/api/cart/update-quantity/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 500\", function () {",
+									"  pm.response.to.have.status(500);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.success).to.exist;",
+									"  pm.expect(responseData.message).to.exist;",
+									"  pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Success field is a boolean value\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.success).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Message field is a string\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData.message).to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Data field should be null\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData.data).to.be.null;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 18\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/cart/update-quantity/4",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"update-quantity",
+								"4"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Items Quantity in Cart | {{host}}/api/cart/update-quantity/1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantity\": 18\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/cart/update-quantity/4",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"cart",
+										"update-quantity",
+										"4"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "656"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"290-dKdJS9/8v1OMzd7IfUj0AWtQf4k\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 10:56:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Item quantity updated successfully!\",\n    \"data\": {\n        \"total_cart_items\": 4,\n        \"total_cart_value\": \"688.70\",\n        \"items\": [\n            {\n                \"id\": 13,\n                \"cart_id\": 2,\n                \"item_id\": 4,\n                \"name\": \"Fresh Milk (1L)\",\n                \"image_url\": \"https://example.com/milk.jpg\",\n                \"price\": \"2.49\",\n                \"quantity\": 18\n            },\n            {\n                \"id\": 14,\n                \"cart_id\": 2,\n                \"item_id\": 1,\n                \"name\": \"Apple\",\n                \"image_url\": \"https://example.com/apple.jpg\",\n                \"price\": \"57.00\",\n                \"quantity\": 10\n            },\n            {\n                \"id\": 15,\n                \"cart_id\": 2,\n                \"item_id\": 3,\n                \"name\": \"Banana\",\n                \"image_url\": \"https://example.com/bananas.jpg\",\n                \"price\": \"10.00\",\n                \"quantity\": 5\n            },\n            {\n                \"id\": 16,\n                \"cart_id\": 2,\n                \"item_id\": 9,\n                \"name\": \"Whipped Cream (200g)\",\n                \"image_url\": \"https://example.com/whipped_cream.jpg\",\n                \"price\": \"1.99\",\n                \"quantity\": 12\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Remove Specific Item from Cart | {{host}}/api/cart/remove-item/4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 404\", function () {",
+									"  pm.expect(pm.response.code).to.equal(404);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields - success, message, and data\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.success).to.exist;",
+									"    pm.expect(responseData.message).to.exist;",
+									"    pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Success field is a boolean\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.success).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Message field is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.message).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Data field is null\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData.data).to.be.null;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/cart/remove-item/13",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"remove-item",
+								"13"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Remove Items from Cart | {{host}}/api/cart/remove-item/4",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/cart/remove-item/2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"cart",
+										"remove-item",
+										"2"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"44-ngeTKAGgo9mGPjwvHPzb+1QPvFw\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 11:01:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"Item could not be removed!\",\n    \"data\": null\n}"
+						},
+						{
+							"name": "Remove Items from Cart | {{host}}/api/cart/remove-item/4",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/cart/remove-item/13",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"cart",
+										"remove-item",
+										"13"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "516"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"204-a1svoVpbd38iIpBCraQW5SFh2o0\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 11:05:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Item removed successfully!\",\n    \"data\": {\n        \"total_cart_items\": 3,\n        \"total_cart_value\": \"643.88\",\n        \"items\": [\n            {\n                \"id\": 14,\n                \"cart_id\": 2,\n                \"item_id\": 1,\n                \"name\": \"Apple\",\n                \"image_url\": \"https://example.com/apple.jpg\",\n                \"price\": \"57.00\",\n                \"quantity\": 10\n            },\n            {\n                \"id\": 15,\n                \"cart_id\": 2,\n                \"item_id\": 3,\n                \"name\": \"Banana\",\n                \"image_url\": \"https://example.com/bananas.jpg\",\n                \"price\": \"10.00\",\n                \"quantity\": 5\n            },\n            {\n                \"id\": 16,\n                \"cart_id\": 2,\n                \"item_id\": 9,\n                \"name\": \"Whipped Cream (200g)\",\n                \"image_url\": \"https://example.com/whipped_cream.jpg\",\n                \"price\": \"1.99\",\n                \"quantity\": 12\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Cart Items | {{host}}/api/cart/all-cart-items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.success).to.exist;",
+									"    pm.expect(responseData.message).to.exist;",
+									"    pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Total cart items is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"  ",
+									"    pm.expect(responseData.data.total_cart_items).to.be.a('number');",
+									"    pm.expect(responseData.data.total_cart_items).to.be.at.least(0);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that total_cart_value is a string\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.data.total_cart_value).to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the 'items' array is present in the response and contains at least one element\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.items).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/cart/all-cart-items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"all-cart-items"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Cart Items | {{host}}/api/cart/all-cart-items",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/cart/all-cart-items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"cart",
+										"all-cart-items"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "501"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f5-Ue1HRldwSvVVhlEDWNrF0XKi1ss\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 11:05:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Data found!\",\n    \"data\": {\n        \"total_cart_items\": 3,\n        \"total_cart_value\": \"643.88\",\n        \"items\": [\n            {\n                \"id\": 14,\n                \"cart_id\": 2,\n                \"item_id\": 1,\n                \"name\": \"Apple\",\n                \"image_url\": \"https://example.com/apple.jpg\",\n                \"price\": \"57.00\",\n                \"quantity\": 10\n            },\n            {\n                \"id\": 15,\n                \"cart_id\": 2,\n                \"item_id\": 3,\n                \"name\": \"Banana\",\n                \"image_url\": \"https://example.com/bananas.jpg\",\n                \"price\": \"10.00\",\n                \"quantity\": 5\n            },\n            {\n                \"id\": 16,\n                \"cart_id\": 2,\n                \"item_id\": 9,\n                \"name\": \"Whipped Cream (200g)\",\n                \"image_url\": \"https://example.com/whipped_cream.jpg\",\n                \"price\": \"1.99\",\n                \"quantity\": 12\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Initiate Order | {{host}}/api/order/initiate-order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.success).to.exist;",
+									"    pm.expect(responseData.message).to.exist;",
+									"    pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Order ID is a non-negative integer\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data.order_id).to.be.a('number');",
+									"  pm.expect(responseData.data.order_id).to.be.at.least(0, \"Order ID should be non-negative\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Order value is a non-negative number\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData.data.order_value).to.be.a('number');",
+									"  pm.expect(responseData.data.order_value).to.be.at.least(0);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is in an acceptable range\", function () {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/order/initiate-order",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"initiate-order"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Initiate Order | {{host}}/api/order/initiate-order",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/order/initiate-order",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"initiate-order"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "111"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6f-CHnf6744wmlfx6lkF81IdL5qJwU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 11:06:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Order has been initiated successfully!\",\n    \"data\": {\n        \"order_id\": 13,\n        \"order_value\": 643.88\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Place Order | {{host}}/api/order/place-order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 404\", function () {",
+									"  pm.expect(pm.response.code).to.equal(404);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.success).to.exist;",
+									"  pm.expect(responseData.message).to.exist;",
+									"  pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Order ID is a non-negative integer\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data.order_id).to.be.a('number');",
+									"  pm.expect(responseData.data.order_id).to.be.at.least(0);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the 'message' field is empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.message).to.be.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the 'success' field is boolean\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.success).to.be.a('boolean');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"order_id\": 13,\r\n    \"delivery_address\": \"QuestionPro Pvt Ltd, Pride Purple Accord, above VIJAY SALES, Pallod Farms, Baner, Pune, Maharashtra 411045\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/order/place-order",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"place-order"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Place Order | {{host}}/api/order/place-order",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"order_id\": 13,\r\n    \"delivery_address\": \"QuestionPro Pvt Ltd, Pride Purple Accord, above VIJAY SALES, Pallod Farms, Baner, Pune, Maharashtra 411045\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/order/place-order",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"place-order"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "185"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b9-t2WjBtwHZLdQwFtFDyrqgxZRje4\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 11:06:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Congratulations Krishna Karn! Your order with order id: 13, has been placed successfully. You can check the order status in My Orders\",\n    \"data\": {\n        \"order_id\": 13\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Order Details Like Status Or Address | {{host}}/api/order/update-order-details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Price is a non-negative number\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.data).to.be.an('array');",
+									"  ",
+									"  responseData.data.forEach(function(order) {",
+									"    pm.expect(order.price).to.be.a('number');",
+									"    pm.expect(order.price).to.be.at.least(0, \"Price should be a non-negative number\");",
+									"  });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status is a valid integer\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.data).to.be.an('array');",
+									"  ",
+									"  responseData.data.forEach(function(order) {",
+									"    pm.expect(order.status).to.be.a('number');",
+									"  });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Delivery address is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.data).to.be.an('array');",
+									"    responseData.data.forEach(function(order) {",
+									"        pm.expect(order.delivery_address).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Delivery address should not be empty\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": 3,\r\n    \"delivery_address\": \"QuestionPro Pvt Ltd, Pride Purple Accord, above VIJAY SALES, Pallod Farms, Baner, Pune, Maharashtra 411045\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/order/update-order-details/11",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"update-order-details",
+								"11"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Order Details Like Status Or Address | {{host}}/api/order/update-order-details",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": 3,\r\n    \"delivery_address\": \"QuestionPro Pvt Ltd, Pride Purple Accord, above VIJAY SALES, Pallod Farms, Baner, Pune, Maharashtra 411045\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/order/update-order-details/11",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"update-order-details",
+										"11"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "331"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"14b-MJ79sMLG1FIWBDMk91KHdvTEjY0\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 11:07:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Item quantity updated successfully!\",\n    \"data\": [\n        {\n            \"id\": 11,\n            \"user_id\": 1,\n            \"price\": \"293.87\",\n            \"status\": 3,\n            \"delivery_address\": \"QuestionPro Pvt Ltd, Pride Purple Accord, above VIJAY SALES, Pallod Farms, Baner, Pune, Maharashtra 411045\",\n            \"created_at\": \"2024-04-27T10:07:40.000Z\",\n            \"updated_at\": \"2024-04-28T11:07:37.000Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Order By User | {{host}}/api/order/user-all-orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.id).to.exist;",
+									"    pm.expect(responseData.user_id).to.exist;",
+									"    pm.expect(responseData.price).to.exist;",
+									"    pm.expect(responseData.status).to.exist;",
+									"    pm.expect(responseData.delivery_address).to.exist;",
+									"    pm.expect(responseData.created_at).to.exist;",
+									"    pm.expect(responseData.updated_at).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate that the 'data' array is present and contains at least one element\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data).to.exist.and.to.be.an('array').that.is.not.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Price is a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data).to.be.an('array');",
+									"  ",
+									"  responseData.data.forEach(function(order) {",
+									"    pm.expect(order.price).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Price should not be empty\");",
+									"  });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.data).to.be.an('array');",
+									"    ",
+									"    responseData.data.forEach(function(order) {",
+									"        pm.expect(order.status).to.be.a('number');",
+									"        pm.expect(order.status).to.be.at.least(0, \"Status should be non-negative\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/order/user-all-orders",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"user-all-orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Order By User | {{host}}/api/order/user-all-orders",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/order/user-all-orders",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"user-all-orders"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "307"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"133-HGXwnpEF4T5tjlMwZIy2GOfwxVU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 11:07:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Data found!\",\n    \"data\": [\n        {\n            \"id\": 13,\n            \"user_id\": 5,\n            \"price\": \"643.88\",\n            \"status\": 1,\n            \"delivery_address\": \"QuestionPro Pvt Ltd, Pride Purple Accord, above VIJAY SALES, Pallod Farms, Baner, Pune, Maharashtra 411045\",\n            \"created_at\": \"2024-04-28T11:06:22.000Z\",\n            \"updated_at\": \"2024-04-28T11:06:58.000Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Orders | {{host}}/api/order/all-orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has required fields\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.success).to.exist;",
+									"  pm.expect(responseData.message).to.exist;",
+									"  pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Total field is a non-negative integer\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.data.total).to.be.a('number').and.to.be.at.least(0);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The 'orders' array is present and contains at least one element\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.orders).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/order/all-orders",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"all-orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Orders | {{host}}/api/order/all-orders",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/order/all-orders",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"all-orders"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2031"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7ef-R5T9762NCVWmz4+PlsRyyMTWTWk\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 11:08:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Data found!\",\n    \"data\": {\n        \"total\": 13,\n        \"orders\": [\n            {\n                \"id\": 13,\n                \"user_id\": 5,\n                \"price\": \"643.88\",\n                \"status\": 1,\n                \"delivery_address\": \"QuestionPro Pvt Ltd, Pride Purple Accord, above VIJAY SALES, Pallod Farms, Baner, Pune, Maharashtra 411045\",\n                \"created_at\": \"2024-04-28T11:06:22.000Z\",\n                \"updated_at\": \"2024-04-28T11:06:58.000Z\"\n            },\n            {\n                \"id\": 12,\n                \"user_id\": 1,\n                \"price\": \"163.87\",\n                \"status\": 0,\n                \"delivery_address\": null,\n                \"created_at\": \"2024-04-28T09:30:33.000Z\",\n                \"updated_at\": null\n            },\n            {\n                \"id\": 11,\n                \"user_id\": 1,\n                \"price\": \"293.87\",\n                \"status\": 3,\n                \"delivery_address\": \"QuestionPro Pvt Ltd, Pride Purple Accord, above VIJAY SALES, Pallod Farms, Baner, Pune, Maharashtra 411045\",\n                \"created_at\": \"2024-04-27T10:07:40.000Z\",\n                \"updated_at\": \"2024-04-28T11:07:37.000Z\"\n            },\n            {\n                \"id\": 10,\n                \"user_id\": 1,\n                \"price\": \"5113.87\",\n                \"status\": 0,\n                \"delivery_address\": null,\n                \"created_at\": \"2024-04-27T09:53:21.000Z\",\n                \"updated_at\": null\n            },\n            {\n                \"id\": 9,\n                \"user_id\": 1,\n                \"price\": \"398.81\",\n                \"status\": 0,\n                \"delivery_address\": null,\n                \"created_at\": \"2024-04-27T09:47:34.000Z\",\n                \"updated_at\": null\n            },\n            {\n                \"id\": 8,\n                \"user_id\": 1,\n                \"price\": \"398.81\",\n                \"status\": 0,\n                \"delivery_address\": null,\n                \"created_at\": \"2024-04-27T09:34:24.000Z\",\n                \"updated_at\": null\n            },\n            {\n                \"id\": 7,\n                \"user_id\": 1,\n                \"price\": \"398.81\",\n                \"status\": 0,\n                \"delivery_address\": null,\n                \"created_at\": \"2024-04-27T09:34:01.000Z\",\n                \"updated_at\": null\n            },\n            {\n                \"id\": 6,\n                \"user_id\": 1,\n                \"price\": \"398.81\",\n                \"status\": 0,\n                \"delivery_address\": null,\n                \"created_at\": \"2024-04-27T09:33:07.000Z\",\n                \"updated_at\": null\n            },\n            {\n                \"id\": 5,\n                \"user_id\": 1,\n                \"price\": \"398.81\",\n                \"status\": 0,\n                \"delivery_address\": null,\n                \"created_at\": \"2024-04-27T09:32:26.000Z\",\n                \"updated_at\": null\n            },\n            {\n                \"id\": 4,\n                \"user_id\": 1,\n                \"price\": \"398.81\",\n                \"status\": 0,\n                \"delivery_address\": null,\n                \"created_at\": \"2024-04-27T09:29:36.000Z\",\n                \"updated_at\": null\n            },\n            {\n                \"id\": 3,\n                \"user_id\": 1,\n                \"price\": \"398.81\",\n                \"status\": 0,\n                \"delivery_address\": null,\n                \"created_at\": \"2024-04-27T09:28:10.000Z\",\n                \"updated_at\": null\n            },\n            {\n                \"id\": 2,\n                \"user_id\": 1,\n                \"price\": \"398.81\",\n                \"status\": 0,\n                \"delivery_address\": null,\n                \"created_at\": \"2024-04-27T09:25:59.000Z\",\n                \"updated_at\": null\n            },\n            {\n                \"id\": 1,\n                \"user_id\": 1,\n                \"price\": \"398.81\",\n                \"status\": 0,\n                \"delivery_address\": null,\n                \"created_at\": \"2024-04-27T09:15:19.000Z\",\n                \"updated_at\": null\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Order Items Detail By Order Id | {{host}}/api/order/order-items-detail/11",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.success).to.exist;",
+									"  pm.expect(responseData.message).to.exist;",
+									"  pm.expect(responseData.data).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the user_id field is a non-negative integer\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.data.user_id).to.be.a('number').and.to.be.at.least(0, \"Value should be a non-negative integer\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the orderItems array is present and contains at least one element\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.orderItems).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/order/order-items-detail/11",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"order-items-detail",
+								"11"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Order Items Detail By Order Id | {{host}}/api/order/order-items-detail/11",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/order/order-items-detail/13",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"order-items-detail",
+										"13"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1004"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3ec-X+ve8aGx4RUPDYzCrtKLw78DXR8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 Apr 2024 11:08:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Data found!\",\n    \"data\": {\n        \"id\": 13,\n        \"user_id\": 5,\n        \"price\": \"643.88\",\n        \"status\": 1,\n        \"delivery_address\": \"QuestionPro Pvt Ltd, Pride Purple Accord, above VIJAY SALES, Pallod Farms, Baner, Pune, Maharashtra 411045\",\n        \"created_at\": \"2024-04-28T11:06:22.000Z\",\n        \"updated_at\": \"2024-04-28T11:06:58.000Z\",\n        \"orderItems\": [\n            {\n                \"order_item_id\": 17,\n                \"item_id\": 1,\n                \"order_item_quantity\": 10,\n                \"order_item_price\": \"57.00\",\n                \"item_name\": \"Apple\",\n                \"item_price\": \"57.00\",\n                \"item_description\": \"Fresh and juicy green apple\",\n                \"item_image_url\": \"https://example.com/apple.jpg\"\n            },\n            {\n                \"order_item_id\": 18,\n                \"item_id\": 3,\n                \"order_item_quantity\": 5,\n                \"order_item_price\": \"10.00\",\n                \"item_name\": \"Banana\",\n                \"item_price\": \"10.00\",\n                \"item_description\": \"Fresh bananas\",\n                \"item_image_url\": \"https://example.com/bananas.jpg\"\n            },\n            {\n                \"order_item_id\": 19,\n                \"item_id\": 9,\n                \"order_item_quantity\": 12,\n                \"order_item_price\": \"1.99\",\n                \"item_name\": \"Whipped Cream (200g)\",\n                \"item_price\": \"1.99\",\n                \"item_description\": \"Light and fluffy whipped cream\",\n                \"item_image_url\": \"https://example.com/whipped_cream.jpg\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

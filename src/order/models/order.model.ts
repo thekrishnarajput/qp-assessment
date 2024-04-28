@@ -23,22 +23,6 @@ const orderModel = {
 
         let query = `INSERT INTO order_items (${columns.join(', ')}) VALUES (${values.join(', ')});`;
 
-        // // Construct the values string for each row
-        // const rowValues = orderData.map((orderDataObj: any) => {
-        //     // Append the order_id field and value to the orderDataObj object
-        //     orderDataObj["order_id"] = orderId;
-        //     const values = columns.map((column: any) => {
-        //         // To make the query secure and SQL injection proof, you should escape the values
-
-        //         return con.escape(orderDataObj[column]);
-        //     });
-        //     return `(${values.join(", ")})`;
-        // });
-
-        // Append the row values to the query
-        // query += rowValues.join(", ");
-        console.log("query:-", query);
-
         let result = await processQueryFn(query);
         return result;
     },
@@ -99,10 +83,7 @@ const orderModel = {
     },
     updateOrderItem: async (id: number, quantity: number) => {
 
-        // const values = Object.values(quantity);
-
         let query = `UPDATE order_items SET quantity=? WHERE id=${id}`
-        console.log("query:-", query);
 
         let result = processQueryFn(query, [quantity]);
         return result;
@@ -113,8 +94,6 @@ const orderModel = {
         const values = Object.values(orderDetails);
 
         let query = `UPDATE orders SET ${columns} WHERE id=${orderId}`
-        console.log("query:-", query);
-        console.log("values:-", values);
 
         let result = processQueryFn(query, values);
         return result;

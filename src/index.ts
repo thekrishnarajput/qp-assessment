@@ -21,8 +21,6 @@ import { urlNotFound } from './utils/middlewares/urlNotFoundHandler';
 // Initialize the express app
 const app = express();
 
-const host: string = 'http://127.0.0.1';
-
 const { PORT } = process.env;
 
 /* App Configuration */
@@ -70,5 +68,5 @@ app.use(urlNotFound);
 
 app.listen(PORT, () => {
     autoCreateAdminController();
-    console.log(`Server is running on ${host}:${PORT}`);
+    console.log(`Server is running on PORT:${PORT}`);
 });

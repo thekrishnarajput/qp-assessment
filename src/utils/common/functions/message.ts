@@ -65,7 +65,7 @@ export const messages = {
     },
 
     orderPlaced: (name: string, orderId: number) => {
-        return `Congratulations ${name || ""}! Your order with order id: ${orderId}, has been placed successfully, you can check the order status in My Orders`;
+        return `Congratulations ${name || ""}! Your order with order id: ${orderId}, has been placed successfully. You can check the order status in My Orders`;
     },
 
     orderAlreadyPlaced: () => {
@@ -89,11 +89,11 @@ export const messages = {
     },
 
     deletedSuccess: () => {
-        return `User deleted successfully!`;
+        return `Deleted successfully!`;
     },
 
     deletedFailed: () => {
-        return `User couldn't be deleted!`;
+        return `Sorry, couldn't be deleted!`;
     },
 
     savedSuccess: () => {
@@ -120,18 +120,6 @@ export const messages = {
         return `Incorrect password, please enter a correct password!`;
     },
 
-    invalidOtp: () => {
-        return `Invalid code, please enter the valid 6-digits code!`;
-    },
-
-    expiredOtp: () => {
-        return `OTP expired, please resend and enter the valid 6-digits code again!`;
-    },
-
-    verifiedOtp: () => {
-        return `OTP verified successfully!`;
-    },
-
     errorMessage: () => {
         return `Oops! something went wrong, please try again.`;
     },
@@ -149,6 +137,6 @@ export const messages = {
     },
 
     validationError: () => {
-        return `Please check validations!`;
+        return `Please check validation fields!`;
     },
 }

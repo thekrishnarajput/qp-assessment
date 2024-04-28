@@ -6,12 +6,14 @@ import { userSchema } from "./user/schemas/user.schema";
 import { cartItemSchema, cartSchema } from "./cart/schemas/cart.schema";
 import { orderItemSchema, orderSchema } from "./order/schemas/order.schema";
 
+const { IS_DOCKER_ENV, DOCKER_MYSQL_HOST, MYSQL_HOST, MYSQL_ROOT_PASSWORD } = process.env;
+
 const connect = async () => {
     try {
         const connection = await createConnection({
-            host: "127.0.0.1",
+            host: IS_DOCKER_ENV === "true" ? DOCKER_MYSQL_HOST : MYSQL_HOST,
             user: "root",
-            password: process.env.MYSQL_ROOT_PASSWORD,
+            password: MYSQL_ROOT_PASSWORD,
         });
         // Create database if not exists
         let dbCreate = JSON.parse(JSON.stringify(await connection.query('CREATE DATABASE IF NOT EXISTS grocery_db;')));

@@ -19,16 +19,13 @@ export const initiateOrderController = async (req: iRequest, res: iResponse, nex
         const userId: number = +(req.user?.id);
 
         let userCartItemsResult = await cartModel.getAllCartItems(userId);
-        console.log("userCartItemsResult:-", userCartItemsResult);
         let totalOrderPrice = 0.00, itemStockQuantityArray = [], cartId = userCartItemsResult[0].cart_id;
 
         for (const cartItem of userCartItemsResult) {
             const { item_id, quantity: cartItemQuantity, ...restItemProps } = cartItem;
             const [stockRows] = await itemModel.getItemQuantity(item_id);
-            console.log("stockRows:-", stockRows);
             itemStockQuantityArray.push(stockRows);
             const stockQuantity = stockRows?.quantity ?? 0;
-            console.log("stockQuantity:-", stockQuantity);
 
             if (stockQuantity === 0) {
                 return response(res, HttpStatus.notAcceptable, false, messages.outOfStock(), { item_id: item_id, ...restItemProps });
@@ -46,7 +43,6 @@ export const initiateOrderController = async (req: iRequest, res: iResponse, nex
 
         // Create new order and get the id
         let orderCreatedResult = await orderModel.createUserOrder(placeOrder);
-        console.log("orderCreatedResult:-", orderCreatedResult);
 
         if (orderCreatedResult.affectedRows === undefined || orderCreatedResult.affectedRows === 0) {
             return response(res, HttpStatus.internalServerError, false, messages.errorMessage(), null);
@@ -60,15 +56,11 @@ export const initiateOrderController = async (req: iRequest, res: iResponse, nex
 
             // Find an object with id = 2
             const stockRows = itemStockQuantityArray.find(obj => obj.id === item_id);
-            console.log("Down stockRows:-", stockRows);
             const stockQuantity = stockRows?.quantity ?? 0;
-            console.log("Down stockQuantity:-", stockQuantity);
 
-            console.log("Down cartItemQuantity:-", cartItemQuantity);
 
             //  Update the quantity in items table
             let updateQuantityResult = await itemModel.updateItemQuantity(item_id, stockQuantity - cartItemQuantity);
-            console.log("updateQuantityResult:-", updateQuantityResult);
 
             if (updateQuantityResult.affectedRows === undefined || updateQuantityResult.affectedRows === 0) {
                 return response(res, HttpStatus.internalServerError, false, messages.errorMessage(), null);
@@ -76,7 +68,6 @@ export const initiateOrderController = async (req: iRequest, res: iResponse, nex
 
             // Add an entry to order_items table
             const orderItemResult = await orderModel.addItemsToOrderItems({ order_id: orderId, item_id: item_id, quantity: cartItemQuantity, price: price });
-            console.log("orderItemResult:-", orderItemResult);
 
             if (orderItemResult.affectedRows === undefined || orderItemResult.affectedRows === 0) {
                 await orderModel.addItemsToOrderItems({ order_id: orderId, item_id: item_id, quantity: cartItemQuantity });
@@ -84,7 +75,6 @@ export const initiateOrderController = async (req: iRequest, res: iResponse, nex
         }
 
         let clearCartResult = await cartModel.clearCart(cartId);
-        console.log("clearCartResult:-", clearCartResult);
 
         let responseData = { order_id: orderId, order_value: totalOrderPrice };
 
@@ -104,7 +94,7 @@ export const placeOrderController = async (req: iRequest, res: iResponse, next: 
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const userId: number = +(req.user?.id);
@@ -122,7 +112,6 @@ export const placeOrderController = async (req: iRequest, res: iResponse, next: 
 
         // Update order status and address by order_id
         let orderUpdateResult = await orderModel.updateOrder(orderId, restBodyProps);
-        console.log("orderUpdateResult:-", orderUpdateResult);
 
         if (orderUpdateResult.affectedRows === undefined || orderUpdateResult.affectedRows === 0) {
             return response(res, HttpStatus.internalServerError, false, messages.errorMessage(), null);
@@ -180,14 +169,13 @@ export const getOrderItemsDetailsController = async (req: iRequest, res: iRespon
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const orderId: number = +(req.params?.order_id);
 
         // Fetching the product details for each item in the order
         let orderItemsResult = await orderModel.getOrderItemsDetailByOrderId(orderId);
-        console.log("orderItemsResult:-", orderItemsResult);
 
         if (orderItemsResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
@@ -195,7 +183,6 @@ export const getOrderItemsDetailsController = async (req: iRequest, res: iRespon
 
         // Fetching the order details of specific order
         let ordersResult = await orderModel.getOrderDetailsByOrderId(orderId);
-        console.log("ordersResult:-", ordersResult);
 
         if (ordersResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
@@ -221,7 +208,7 @@ export const updateOrderDetailsController = async (req: iRequest, res: iResponse
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         const orderId: number = +(req.params?.order_id);
@@ -233,7 +220,6 @@ export const updateOrderDetailsController = async (req: iRequest, res: iResponse
         }
 
         let updateResult = await orderModel.updateOrder(orderId, Body);
-        console.log("updateResult:-", updateResult);
 
         if (updateResult.affectedRows === undefined && updateResult.affectedRows === 0) {
             return response(res, HttpStatus.internalServerError, false, messages.errorMessage(), null);
@@ -241,7 +227,6 @@ export const updateOrderDetailsController = async (req: iRequest, res: iResponse
 
         // Fetching the order details of specific order
         let ordersResult = await orderModel.getOrderDetailsByOrderId(orderId);
-        console.log("ordersResult:-", ordersResult);
 
         return response(res, HttpStatus.ok, true, messages.itemUpdated(), ordersResult);
     }

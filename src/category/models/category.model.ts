@@ -18,7 +18,6 @@ const categoryModel = {
                 // To make the query secure and SQL injection proof, you should escape the values
                 return con.escape(data[column]);
             });
-            console.log("values:-", values);
             return `(${values.join(", ")})`;
         });
 

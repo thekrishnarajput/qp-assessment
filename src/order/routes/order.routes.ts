@@ -19,7 +19,6 @@ orderRouter.post("/place-order",
     permit([Roles.userRoleId]),  // Only user can add items to the order
     validator.order_id,
     validator.delivery_address,
-    // validator.orderItemQuantity,
     placeOrderController);
 
 // Get all order list

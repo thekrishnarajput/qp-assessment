@@ -68,11 +68,10 @@ export const adminLoginController = async (req: iRequest, res: iResponse, next: 
         // Check validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+            return response(res, HttpStatus.forbidden, false, messages.validationError(), errors.array());
         }
 
         let Body = req.body;
-        console.log("Body:-", Body);
 
         let adminEmail = Body?.email.trim();;
         let adminPassword: string = (Body?.password + "").trim();
@@ -93,7 +92,7 @@ export const adminLoginController = async (req: iRequest, res: iResponse, next: 
         return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
     }
     catch (error: any) {
-        console.log("Catch error:-", error);
+        console.error("Catch error:-", error);
         printLogger(LoggerType.error, error.message, "adminLoginController", "admin.controller.ts");
         next(error);
     }
