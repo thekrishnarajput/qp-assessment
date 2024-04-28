@@ -24,8 +24,8 @@ export const saveCategoriesController = async (req: iRequest, res: iResponse, ne
         }
 
         let saveResult = await categoryModel.createCategories(Body);
-        if (!saveResult) {
-            return response(res, HttpStatus.notModified, false, messages.categoryNotSaved(), null);
+        if (saveResult.affectedRows === undefined || saveResult.affectedRows === 0) {
+            return response(res, HttpStatus.internalServerError, false, messages.categoryNotSaved(), null);
         }
         return response(res, HttpStatus.ok, true, messages.categorySaved(), saveResult);
     }
@@ -49,7 +49,7 @@ export const getCategoryController = async (req: iRequest, res: iResponse, next:
 
         let categoryListResult = await categoryModel.getCategory(id);
 
-        if (!categoryListResult) {
+        if (categoryListResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
         }
         return response(res, HttpStatus.ok, true, messages.dataFound(), categoryListResult);
@@ -68,7 +68,7 @@ export const getAllCategoriesController = async (req: iRequest, res: iResponse, 
         let categoryListResult = await categoryModel.getAllCategoryList();
         console.log("categoryListResult:-", categoryListResult);
 
-        if (!categoryListResult) {
+        if (categoryListResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
         }
         return response(res, HttpStatus.ok, true, messages.dataFound(), categoryListResult);
@@ -100,8 +100,8 @@ export const updateCategoryDetailsController = async (req: iRequest, res: iRespo
         let updateResult = await categoryModel.updateCategory(id, Body);
         console.log("updateResult:-", updateResult);
 
-        if (!updateResult) {
-            return response(res, HttpStatus.notModified, false, messages.categoryNotSaved(), null);
+        if (updateResult.affectedRows === undefined || updateResult.affectedRows === 0) {
+            return response(res, HttpStatus.internalServerError, false, messages.categoryNotSaved(), null);
         }
         return response(res, HttpStatus.ok, true, messages.categorySaved(), updateResult);
     }
@@ -130,8 +130,8 @@ export const deleteCategoryController = async (req: iRequest, res: iResponse, ne
         let deleteResult = await categoryModel.deleteCategory(id);
         console.log("deleteResult:-", deleteResult);
 
-        if (!deleteResult) {
-            return response(res, HttpStatus.notModified, false, messages.categoryNotSaved(), null);
+        if (deleteResult.affectedRows === undefined || deleteResult.affectedRows === 0) {
+            return response(res, HttpStatus.internalServerError, false, messages.categoryNotSaved(), null);
         }
         return response(res, HttpStatus.ok, true, messages.categorySaved(), deleteResult);
     }

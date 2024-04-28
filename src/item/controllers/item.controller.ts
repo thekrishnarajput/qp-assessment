@@ -24,8 +24,8 @@ export const saveItemsController = async (req: iRequest, res: iResponse, next: i
         }
 
         let saveResult = await itemModel.createItems(Body);
-        if (!saveResult) {
-            return response(res, HttpStatus.notModified, false, messages.itemNotSaved(), null);
+        if (saveResult.affectedRows === undefined) {
+            return response(res, HttpStatus.internalServerError, false, messages.itemNotSaved(), null);
         }
         return response(res, HttpStatus.ok, true, messages.itemSaved(), saveResult);
     }
@@ -49,7 +49,7 @@ export const getItemController = async (req: iRequest, res: iResponse, next: iNe
         let itemListResult = await itemModel.getItem(id);
         console.log("itemListResult:-", itemListResult);
 
-        if (!itemListResult) {
+        if (itemListResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
         }
         return response(res, HttpStatus.ok, true, messages.dataFound(), itemListResult);
@@ -67,7 +67,7 @@ export const getAllItemsController = async (req: iRequest, res: iResponse, next:
         let itemListResult = await itemModel.getAllItemsList();
         console.log("itemListResult:-", itemListResult);
 
-        if (!itemListResult) {
+        if (itemListResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
         }
         return response(res, HttpStatus.ok, true, messages.dataFound(), itemListResult);
@@ -93,7 +93,7 @@ export const getAllItemsByCategoryController = async (req: iRequest, res: iRespo
         let itemListResult = await itemModel.getAllItemsByCategory(id);
         console.log("itemListResult:-", itemListResult);
 
-        if (!itemListResult) {
+        if (itemListResult.length === 0) {
             return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
         }
         return response(res, HttpStatus.ok, true, messages.dataFound(), itemListResult);
@@ -124,8 +124,8 @@ export const updateItemDetailsController = async (req: iRequest, res: iResponse,
         let updateResult = await itemModel.updateItem(id, Body);
         console.log("updateResult:-", updateResult);
 
-        if (!updateResult) {
-            return response(res, HttpStatus.notModified, false, messages.itemNotSaved(), null);
+        if (updateResult.affectedRows === undefined || updateResult.affectedRows === 0) {
+            return response(res, HttpStatus.internalServerError, false, messages.itemNotSaved(), null);
         }
         return response(res, HttpStatus.ok, true, messages.itemSaved(), updateResult);
     }
@@ -156,10 +156,10 @@ export const updateItemInventoryController = async (req: iRequest, res: iRespons
         let updateResult = await itemModel.updateItem(id, Body);
         console.log("updateResult:-", updateResult);
 
-        if (!updateResult) {
-            return response(res, HttpStatus.notModified, false, messages.itemNotSaved(), null);
+        if (updateResult.affectedRows === undefined || updateResult.affectedRows === 0) {
+            return response(res, HttpStatus.internalServerError, false, messages.itemNotUpdated(), null);
         }
-        return response(res, HttpStatus.ok, true, messages.itemSaved(), updateResult);
+        return response(res, HttpStatus.ok, true, messages.itemUpdated(), updateResult);
     }
     catch (error: any) {
         console.error("Catch error:-", error);
@@ -185,8 +185,8 @@ export const deleteItemController = async (req: iRequest, res: iResponse, next: 
         let deleteResult = await itemModel.deleteItem(id);
         console.log("deleteResult:-", deleteResult);
 
-        if (!deleteResult) {
-            return response(res, HttpStatus.notModified, false, messages.itemNotSaved(), null);
+        if (deleteResult.affectedRows === undefined || deleteResult.affectedRows === 0) {
+            return response(res, HttpStatus.internalServerError, false, messages.itemNotSaved(), null);
         }
         return response(res, HttpStatus.ok, true, messages.itemSaved(), deleteResult);
     }

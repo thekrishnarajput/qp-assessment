@@ -11,10 +11,8 @@ const connect = async () => {
         const connection = await createConnection({
             host: "127.0.0.1",
             user: "root",
-            password: "root",
-            // database: "grocery_db"
+            password: process.env.MYSQL_ROOT_PASSWORD,
         });
-        let tableFlag = false;
         // Create database if not exists
         let dbCreate = JSON.parse(JSON.stringify(await connection.query('CREATE DATABASE IF NOT EXISTS grocery_db;')));
 

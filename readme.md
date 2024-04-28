@@ -4,7 +4,11 @@ These are the APIs for a grocery shop, with two roles (Admin and User). They hav
 
 ## Prerequisites
 
-Before running any of the scripts, make sure you have [Node.js](https://nodejs.org/) and [TypeScript](https://www.typescriptlang.org/) installed on your machine.
+Before running any of the scripts, make sure you have [Node.js](https://nodejs.org/), [TypeScript](https://www.typescriptlang.org/), and [MySQL](https://www.mysql.com/downloads/) installed on your machine.
+
+## Postman Collection
+
+[Postman Collection](https://documenter.getpostman.com/view/20048469/2sA3BuV8BH)
 
 ## Available Scripts
 

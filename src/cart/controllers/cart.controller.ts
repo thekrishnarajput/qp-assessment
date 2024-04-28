@@ -22,7 +22,6 @@ export const addToCartController = async (req: iRequest, res: iResponse, next: i
 
         let Body: any[] = req.body.items;
 
-
         let userCartResult = await cartModel.getCart(userId);
         console.log("userCartResult:-", userCartResult);
 
@@ -31,8 +30,9 @@ export const addToCartController = async (req: iRequest, res: iResponse, next: i
         if (userCartResult.length === 0) {
             // Create new Cart for User and then add item into it
             let newUserCart: any = await cartModel.createUserCart(userId);
+            console.log("newUserCart:-", newUserCart);
 
-            if (newUserCart.affectedRows === 0 ? true : false) {
+            if (newUserCart.affectedRows === undefined || newUserCart.affectedRows === 0) {
                 return response(res, HttpStatus.internalServerError, false, messages.errorMessage(), null);
             }
             cartId = newUserCart.insertId;
@@ -43,10 +43,12 @@ export const addToCartController = async (req: iRequest, res: iResponse, next: i
         }
 
         let saveResult = await cartModel.addItemsToCart(cartId, Body);
-        if (!saveResult) {
-            return response(res, HttpStatus.notModified, false, messages.categoryNotSaved(), null);
+        console.log("saveResult:-", saveResult.affectedRows);
+
+        if (saveResult.affectedRows === undefined || saveResult.affectedRows === 0) {
+            return response(res, HttpStatus.internalServerError, false, messages.itemNotAdded(), null);
         }
-        return response(res, HttpStatus.ok, true, messages.categorySaved(), saveResult);
+        return response(res, HttpStatus.ok, true, messages.itemAdded(), saveResult);
     }
     catch (error: any) {
         console.error("Catch error:-", error);
@@ -78,22 +80,19 @@ export const updateQuantityController = async (req: iRequest, res: iResponse, ne
             return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
         }
 
-        const cart_item_id: number = +(req.params?.cart_item_id);
+        const item_id: number = +(req.params?.item_id);
 
         let Body: iCartItem = req.body;
 
-        if (!cart_item_id) {
+        if (!item_id) {
             return response(res, HttpStatus.notAcceptable, false, messages.errorMessage(), null);
         }
 
-        let updateResult = await cartModel.updateCartItem(cart_item_id, Body.quantity);
+        let updateResult = await cartModel.updateCartItem(item_id, Body.quantity);
         console.log("updateResult:-", updateResult);
 
-        if (updateResult.affectedRows === undefined) {
-            return response(res, HttpStatus.internalServerError, false, messages.errorMessage(), null);
-        }
-        else if (updateResult.affectedRows === 0) {
-            return response(res, HttpStatus.notModified, false, messages.itemNotUpdated(), null);
+        if (updateResult.affectedRows === undefined || updateResult.affectedRows === 0) {
+            return response(res, HttpStatus.internalServerError, false, messages.itemNotUpdated(), null);
         }
 
         let responseData = await getAllCartItems(+(req.user?.id));
@@ -107,7 +106,7 @@ export const updateQuantityController = async (req: iRequest, res: iResponse, ne
     }
 };
 
-// Remove items from cart
+// Remove items from cart by cart_item_id
 export const removeCartItemController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
     try {
         // Check validation errors
@@ -125,8 +124,8 @@ export const removeCartItemController = async (req: iRequest, res: iResponse, ne
         let removeResult = await cartModel.removeCartItem(cart_item_id);
         console.log("removeResult:-", removeResult);
 
-        if (removeResult.affectedRows === 0) {
-            return response(res, HttpStatus.notModified, false, messages.itemNotRemoved(), null);
+        if (removeResult.affectedRows === undefined || removeResult.affectedRows === 0) {
+            return response(res, HttpStatus.internalServerError, false, messages.itemNotRemoved(), null);
         }
 
         let responseData = await getAllCartItems(+(req.user?.id));
@@ -142,7 +141,9 @@ export const removeCartItemController = async (req: iRequest, res: iResponse, ne
 
 const getAllCartItems = async (userId: number) => {
     let cartItemsResult = await cartModel.getAllCartItems(userId);
-
+    if (cartItemsResult.length === 0) {
+        return { total_cart_items: 0, total_cart_value: 0.0, items: [] }
+    }
     let totalCartValue = 0.0, totalCartItems = cartItemsResult.length;
 
     if (totalCartItems > 0) {

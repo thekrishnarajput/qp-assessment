@@ -23,10 +23,10 @@ cartRouter.get("/all-cart-items",
     getAllCartItemsController);
 
 // Update cart items quantity
-cartRouter.post("/update-quantity/:cart_item_id",
+cartRouter.post("/update-quantity/:item_id",
     auth,
     permit([Roles.userRoleId]),  // Only user can delete cart items
-    validator.cart_item_id,
+    validator.item_id,
     updateQuantityController);
 
 // Delete the category

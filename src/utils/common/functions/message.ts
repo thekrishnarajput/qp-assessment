@@ -16,7 +16,23 @@ export const messages = {
         return "Item could not be saved!";
     },
 
+    insufficientQuantity: (param: number) => {
+        return `This product has ${param} stock available! Please reduce quantity.`;
+    },
+
+    outOfStock: () => {
+        return `This product is out of stock! Please remove and add similar item.`;
+    },
+
     itemSaved: () => {
+        return "Item saved successfully!";
+    },
+
+    itemNotAdded: () => {
+        return "Item could not be saved!";
+    },
+
+    itemAdded: () => {
         return "Item saved successfully!";
     },
 
@@ -37,11 +53,23 @@ export const messages = {
     },
 
     categoryNotSaved: () => {
-        return "Item could not be saved!";
+        return "Category could not be saved!";
     },
 
     categorySaved: () => {
-        return "Item saved successfully!";
+        return "Category saved successfully!";
+    },
+
+    orderInitiated: () => {
+        return "Order has been initiated successfully!";
+    },
+
+    orderPlaced: (name: string, orderId: number) => {
+        return `Congratulations ${name || ""}! Your order with order id: ${orderId}, has been placed successfully, you can check the order status in My Orders`;
+    },
+
+    orderAlreadyPlaced: () => {
+        return "Sorry, this order has already been placed!";
     },
 
     userNotSaved: () => {

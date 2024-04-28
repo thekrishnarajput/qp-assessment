@@ -45,7 +45,7 @@ const cartModel = {
     },
     getAllCartItems: async (userId: number) => {
 
-        let query = `SELECT cart_items.id, items.name, items.image_url, items.price,
+        let query = `SELECT cart_items.id, cart_items.cart_id, cart_items.item_id, items.name, items.image_url, items.price,
         cart_items.quantity
         FROM cart_items
         JOIN items On cart_items.item_id = items.id
@@ -56,19 +56,26 @@ const cartModel = {
         let result = await processQueryFn(query, [userId]);
         return result;
     },
-    updateCartItem: async (id: number, quantity: number) => {
+    updateCartItem: async (itemId: number, quantity: number) => {
 
         // const values = Object.values(quantity);
 
-        let query = `UPDATE cart_items SET quantity=? WHERE id=${id}`
+        let query = `UPDATE cart_items SET quantity=? WHERE item_id=${itemId}`
         console.log("query:-", query);
-        
+
         let result = processQueryFn(query, [quantity]);
         return result;
     },
     removeCartItem: async (cart_item_id: number) => {
 
         let query = `DELETE FROM cart_items WHERE id=${cart_item_id};`
+
+        let result = processQueryFn(query);
+        return result;
+    },
+    clearCart: async (cartId: number) => {
+
+        let query = `DELETE FROM cart_items WHERE cart_id=${cartId};`
 
         let result = processQueryFn(query);
         return result;

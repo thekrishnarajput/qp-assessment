@@ -34,8 +34,8 @@ export const registerUserController = async (req: iRequest, res: iResponse, next
         Body.role = Roles.userRoleId;
 
         let saveResult = await userModel.createUser(Body);
-        if (!saveResult) {
-            return response(res, HttpStatus.notModified, false, messages.itemNotSaved(), null);
+        if (saveResult.affectedRows === undefined) {
+            return response(res, HttpStatus.internalServerError, false, messages.itemNotSaved(), null);
         }
         return response(res, HttpStatus.ok, true, messages.itemSaved(), saveResult);
     }
@@ -127,7 +127,7 @@ export const updateUserController = async (req: iRequest, res: iResponse, next: 
         const updateResult = await userModel.updateUserById(userId, restBodyProps);
 
         if (updateResult.affectedRows === 0) {
-            return response(res, HttpStatus.notModified, false, messages.updatedFailed(), null);
+            return response(res, HttpStatus.internalServerError, false, messages.updatedFailed(), null);
         }
         var { password, ...restUserProps } = (await userModel.getUserById(userId))[0];
         return response(res, HttpStatus.ok, true, messages.updatedSuccess(), restUserProps);
@@ -160,7 +160,7 @@ export const deleteUserController = async (req: iRequest, res: iResponse, next: 
         const updateResult = await userModel.updateUserById(id, updateStatus);
 
         if (updateResult.affectedRows === 0) {
-            return response(res, HttpStatus.notModified, false, messages.deletedFailed(), null);
+            return response(res, HttpStatus.internalServerError, false, messages.deletedFailed(), null);
         }
         const { password, ...restUserProps } = (await userModel.getUserById(id))[0];
         return response(res, HttpStatus.ok, true, messages.deletedSuccess(), restUserProps);

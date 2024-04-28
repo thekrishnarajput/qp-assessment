@@ -1,37 +1,49 @@
 import { Router } from "express";
 import { validator } from "../../utils/middlewares/validationHandler";
-import { getAllOrderItemsController, placeOrderController, removeOrderItemController, updateQuantityController } from "../controllers/order.controller";
+import { getAllOrdersController, getOrderItemsDetailsController, getUserAllOrderItemsController, initiateOrderController, placeOrderController, updateOrderDetailsController } from "../controllers/order.controller";
 import { Roles } from "../../utils/common/enums/roles";
 import { permit } from "../../utils/middlewares/permissionHandler";
 import { auth } from "../../utils/middlewares/token";
 
 export const orderRouter = Router();
 
-// Add items to the order
+// Initiate the order
+orderRouter.post("/initiate-order",
+    auth,
+    permit([Roles.userRoleId]),  // Only user can add items to the order
+    initiateOrderController);
+
+// Place order and add address
 orderRouter.post("/place-order",
     auth,
     permit([Roles.userRoleId]),  // Only user can add items to the order
-    validator.itemsArray,
-    validator.ItemId,
+    validator.order_id,
+    validator.delivery_address,
     // validator.orderItemQuantity,
     placeOrderController);
 
-// Get all categories list
-orderRouter.get("/all-order-items",
+// Get all order list
+orderRouter.get("/all-orders",
     auth,
-    permit([Roles.userRoleId]),  // Only user can get items from their order
-    getAllOrderItemsController);
+    permit([Roles.adminRoleId]),  // Only Admin can access this
+    getAllOrdersController);
 
-// Update order items quantity
-orderRouter.post("/update-quantity/:order_item_id",
+// Get all order list by a specific user
+orderRouter.get("/user-all-orders",
     auth,
-    permit([Roles.userRoleId]),  // Only user can delete order items
-    // validator.order_item_id,
-    updateQuantityController);
+    permit([Roles.userRoleId, Roles.adminRoleId]),  // User and Admin both can access this
+    getUserAllOrderItemsController);
 
-// Delete the category
-orderRouter.get("/remove-item",
+// Get order items detail list by a specific order
+orderRouter.get("/order-items-detail/:order_id",
     auth,
-    permit([Roles.userRoleId]),  // Only user can delete order items
-    // validator.order_item_id,
-    removeOrderItemController);
+    permit([Roles.userRoleId, Roles.adminRoleId]),  // User and Admin both can access this
+    validator.order_id,
+    getOrderItemsDetailsController);
+
+// Update order details
+orderRouter.post("/update-order-details/:order_id",
+    auth,
+    permit([Roles.adminRoleId]),  // Only admin can update the order details
+    validator.order_id,
+    updateOrderDetailsController);

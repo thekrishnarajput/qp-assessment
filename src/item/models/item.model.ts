@@ -35,6 +35,13 @@ const itemModel = {
         let result = await processQueryFn(query);
         return result;
     },
+    getItemQuantity: async (id: number) => {
+
+        let query = `SELECT id, quantity FROM items WHERE id=${id};`;
+
+        let result = await processQueryFn(query);
+        return result;
+    },
     getAllItemsList: async () => {
 
         let query = `SELECT * FROM items;`;
@@ -57,6 +64,13 @@ const itemModel = {
         let query = `UPDATE items SET ${columns} WHERE id=${id}`
 
         let result = processQueryFn(query, values);
+        return result;
+    },
+    updateItemQuantity: async (id: number, quantity: number) => {
+
+        let query = `UPDATE items SET quantity = ${quantity} WHERE id=${id}`
+
+        let result = processQueryFn(query);
         return result;
     },
     deleteItem: async (id: number) => {

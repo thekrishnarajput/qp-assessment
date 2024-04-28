@@ -15,6 +15,8 @@ import { itemRouter } from './item/routes/item.routes';
 import { categoryRouter } from './category/routes/category.routes';
 import { userRouter } from './user/routes/user.routes';
 import { cartRouter } from './cart/routes/cart.routes';
+import { orderRouter } from './order/routes/order.routes';
+import { urlNotFound } from './utils/middlewares/urlNotFoundHandler';
 
 // Initialize the express app
 const app = express();
@@ -53,13 +55,16 @@ app.use('/api/admin', adminRouter);
 
 app.use('/api/user', userRouter);
 
-app.use('/api/grocery-item', itemRouter);
-
 app.use('/api/category', categoryRouter);
+
+app.use('/api/grocery-item', itemRouter);
 
 app.use('/api/cart', cartRouter);
 
-app.use('/api/order', cartRouter);
+app.use('/api/order', orderRouter);
+
+// Not found handler middleware
+app.use(urlNotFound);
 
 /* Server initialization */
 

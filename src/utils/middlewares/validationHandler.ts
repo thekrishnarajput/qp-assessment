@@ -5,8 +5,8 @@ export const validator = {
     mobileNumber: body('mobile_number').notEmpty().withMessage('Mobile number is required!').isMobilePhone('any', { strictMode: false }).withMessage('Mobile number is invalid!'),
     password: body('password').notEmpty().withMessage('Password is required!').isLength({ min: 4 }).withMessage('Password must be at least 4 characters long!'),
     adminPassword: body('password').notEmpty().withMessage('Password is required!').isLength({ min: 4 }).withMessage('Password must be at least 8 characters long!'),
+
     name: body('name').notEmpty().withMessage('Name is required!').isLength({ min: 2 }).withMessage('Name must be at least 2 characters long!'),
-    // lastName: body('lastName').notEmpty().withMessage('Last name is required!').isLength({ min: 2 }).withMessage('Last name must be at least 2 characters long!'),
     role: body('role').notEmpty().withMessage('Role is required!').isIn([1, 2]),
 
     // Items
@@ -32,4 +32,7 @@ export const validator = {
 
     item_id: check('item_id').notEmpty().withMessage("Item id is required!").isNumeric().withMessage('Item id must be a number!'),
     cart_item_id: check('cart_item_id').notEmpty().withMessage("Cart item id is required!").isNumeric().withMessage('Cart item id must be a number!'),
+
+    order_id: check('order_id').notEmpty().withMessage("Order id is required!").isNumeric().withMessage('Order id must be a number!'),
+    delivery_address: body('delivery_address').notEmpty().withMessage('Delivery address is required!').isLength({ min: 15 }).withMessage('Delivery address must be at least 15 characters long!'),
 }

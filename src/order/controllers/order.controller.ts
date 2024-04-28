@@ -8,6 +8,95 @@ import { iNextFunction, iRequest, iResponse } from "../../utils/common/interface
 import { response } from "../../utils/middlewares/response";
 import { iOrder, iOrderItem } from "../interfaces/order.interface";
 import orderModel from "../models/order.model";
+import cartModel from "../../cart/models/cart.model";
+import itemModel from "../../item/models/item.model";
+import { OrderStatus } from "../../utils/common/enums/orderStatus";
+import { Roles } from "../../utils/common/enums/roles";
+
+// Initiate order controller
+export const initiateOrderController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
+    try {
+        const userId: number = +(req.user?.id);
+
+        let userCartItemsResult = await cartModel.getAllCartItems(userId);
+        console.log("userCartItemsResult:-", userCartItemsResult);
+        let totalOrderPrice = 0.00, itemStockQuantityArray = [], cartId = userCartItemsResult[0].cart_id;
+
+        for (const cartItem of userCartItemsResult) {
+            const { item_id, quantity: cartItemQuantity, ...restItemProps } = cartItem;
+            const [stockRows] = await itemModel.getItemQuantity(item_id);
+            console.log("stockRows:-", stockRows);
+            itemStockQuantityArray.push(stockRows);
+            const stockQuantity = stockRows?.quantity ?? 0;
+            console.log("stockQuantity:-", stockQuantity);
+
+            if (stockQuantity === 0) {
+                return response(res, HttpStatus.notAcceptable, false, messages.outOfStock(), { item_id: item_id, ...restItemProps });
+            } else if (stockQuantity < cartItemQuantity || stockQuantity < 0) {
+                return response(res, HttpStatus.notAcceptable, false, messages.insufficientQuantity(stockQuantity), { item_id: item_id, ...restItemProps });
+            }
+            totalOrderPrice += (parseFloat(restItemProps?.price) * cartItemQuantity);
+        };
+
+        let placeOrder = {
+            user_id: userId,
+            status: OrderStatus.orderInitiated,
+            price: totalOrderPrice
+        };
+
+        // Create new order and get the id
+        let orderCreatedResult = await orderModel.createUserOrder(placeOrder);
+        console.log("orderCreatedResult:-", orderCreatedResult);
+
+        if (orderCreatedResult.affectedRows === undefined || orderCreatedResult.affectedRows === 0) {
+            return response(res, HttpStatus.internalServerError, false, messages.errorMessage(), null);
+        }
+
+        const orderId = orderCreatedResult.insertId;
+
+
+        for (const cartItem of userCartItemsResult) {
+            const { item_id, quantity: cartItemQuantity, price } = cartItem;
+
+            // Find an object with id = 2
+            const stockRows = itemStockQuantityArray.find(obj => obj.id === item_id);
+            console.log("Down stockRows:-", stockRows);
+            const stockQuantity = stockRows?.quantity ?? 0;
+            console.log("Down stockQuantity:-", stockQuantity);
+
+            console.log("Down cartItemQuantity:-", cartItemQuantity);
+
+            //  Update the quantity in items table
+            let updateQuantityResult = await itemModel.updateItemQuantity(item_id, stockQuantity - cartItemQuantity);
+            console.log("updateQuantityResult:-", updateQuantityResult);
+
+            if (updateQuantityResult.affectedRows === undefined || updateQuantityResult.affectedRows === 0) {
+                return response(res, HttpStatus.internalServerError, false, messages.errorMessage(), null);
+            }
+
+            // Add an entry to order_items table
+            const orderItemResult = await orderModel.addItemsToOrderItems({ order_id: orderId, item_id: item_id, quantity: cartItemQuantity, price: price });
+            console.log("orderItemResult:-", orderItemResult);
+
+            if (orderItemResult.affectedRows === undefined || orderItemResult.affectedRows === 0) {
+                await orderModel.addItemsToOrderItems({ order_id: orderId, item_id: item_id, quantity: cartItemQuantity });
+            }
+        }
+
+        let clearCartResult = await cartModel.clearCart(cartId);
+        console.log("clearCartResult:-", clearCartResult);
+
+        let responseData = { order_id: orderId, order_value: totalOrderPrice };
+
+        return response(res, HttpStatus.ok, true, messages.orderInitiated(), responseData);
+    }
+    catch (error: any) {
+        console.error("Catch error:-", error);
+        printLogger(LoggerType.error, error.message, "initiateOrderController", "order.controller.ts");
+        next(error);
+    }
+};
+
 
 // Place order controller
 export const placeOrderController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
@@ -20,56 +109,73 @@ export const placeOrderController = async (req: iRequest, res: iResponse, next: 
 
         const userId: number = +(req.user?.id);
 
-        let Body: any[] = req.body.items;
+        let Body = req.body;
+        const { order_id: orderId, ...restBodyProps } = Body;
 
-        let userOrderResult = await orderModel.getOrder(userId);
-        console.log("userOrderResult:-", userOrderResult);
+        let isOrderPlaced = await orderModel.getOrderById(orderId);
 
-        let orderId = userOrderResult[0]?.id || null;
-        //  If there is no order for this user, create a new one and get its id
-        if (userOrderResult.length === 0) {
-            // Create new Order for User and then add item into it
-            let newUserOrder: any = await orderModel.createUserOrder(userId);
-
-            if (newUserOrder.affectedRows === 0 ? true : false) {
-                return response(res, HttpStatus.internalServerError, false, messages.errorMessage(), null);
-            }
-            orderId = newUserOrder.insertId;
+        if (isOrderPlaced[0].status > OrderStatus.orderInitiated) {
+            return response(res, HttpStatus.notFound, false, messages.orderAlreadyPlaced(), { order_id: isOrderPlaced[0].id });
         }
 
-        if (Body.length === 0) {
-            return response(res, HttpStatus.notAcceptable, false, messages.errorMessage(), null);
+        restBodyProps["status"] = OrderStatus.orderPending;
+
+        // Update order status and address by order_id
+        let orderUpdateResult = await orderModel.updateOrder(orderId, restBodyProps);
+        console.log("orderUpdateResult:-", orderUpdateResult);
+
+        if (orderUpdateResult.affectedRows === undefined || orderUpdateResult.affectedRows === 0) {
+            return response(res, HttpStatus.internalServerError, false, messages.errorMessage(), null);
         }
 
-        let saveResult = await orderModel.addItemsToOrder(orderId, Body);
-        if (!saveResult) {
-            return response(res, HttpStatus.notModified, false, messages.categoryNotSaved(), null);
-        }
-        return response(res, HttpStatus.ok, true, messages.categorySaved(), saveResult);
+        return response(res, HttpStatus.ok, true, messages.orderPlaced(req.user?.name, orderId), { order_id: orderId });
     }
     catch (error: any) {
         console.error("Catch error:-", error);
-        printLogger(LoggerType.error, error.message, "addToOrderController", "order.controller.ts");
+        printLogger(LoggerType.error, error.message, "placeOrderController", "order.controller.ts");
         next(error);
     }
 };
 
-// Get all order items
-export const getAllOrderItemsController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
+// Get all orders
+export const getAllOrdersController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
     try {
-        const userId: number = +(req.user?.id);
-        let responseData = await getAllOrderItems(userId);
+        let orderItemsResult = await orderModel.getAllOrderItems();
+        if (orderItemsResult.length === 0) {
+            return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
+        }
+        const responseData = {
+            total: orderItemsResult.length,
+            orders: orderItemsResult
+        }
         return response(res, HttpStatus.ok, true, messages.dataFound(), responseData);
     }
     catch (error: any) {
         console.error("Catch error:-", error);
-        printLogger(LoggerType.error, error.message, "getAllOrderItemsController", "order.controller.ts");
+        printLogger(LoggerType.error, error.message, "getUserAllOrderItemsController", "order.controller.ts");
         next(error);
     }
 };
 
-// Update order items quantity
-export const updateQuantityController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
+// Get user all order items
+export const getUserAllOrderItemsController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
+    try {
+        const userId: number = +(req.user?.id);
+        let orderItemsResult = await orderModel.getUserAllOrderItems(userId);
+        if (orderItemsResult.length === 0) {
+            return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
+        }
+        return response(res, HttpStatus.ok, true, messages.dataFound(), orderItemsResult);
+    }
+    catch (error: any) {
+        console.error("Catch error:-", error);
+        printLogger(LoggerType.error, error.message, "getUserAllOrderItemsController", "order.controller.ts");
+        next(error);
+    }
+};
+
+// Get order items detail by order id
+export const getOrderItemsDetailsController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
     try {
         // Check validation errors
         const errors = validationResult(req);
@@ -77,77 +183,71 @@ export const updateQuantityController = async (req: iRequest, res: iResponse, ne
             return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
         }
 
-        const order_item_id: number = +(req.params?.order_item_id);
+        const orderId: number = +(req.params?.order_id);
 
-        let Body: iOrderItem = req.body;
+        // Fetching the product details for each item in the order
+        let orderItemsResult = await orderModel.getOrderItemsDetailByOrderId(orderId);
+        console.log("orderItemsResult:-", orderItemsResult);
 
-        if (!order_item_id) {
+        if (orderItemsResult.length === 0) {
+            return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
+        }
+
+        // Fetching the order details of specific order
+        let ordersResult = await orderModel.getOrderDetailsByOrderId(orderId);
+        console.log("ordersResult:-", ordersResult);
+
+        if (ordersResult.length === 0) {
+            return response(res, HttpStatus.notFound, false, messages.noDataFound(), null);
+        }
+
+        let responseData = {
+            ...ordersResult[0],
+            orderItems: orderItemsResult
+        }
+
+        return response(res, HttpStatus.ok, true, messages.dataFound(), responseData);
+    }
+    catch (error: any) {
+        console.error("Catch error:-", error);
+        printLogger(LoggerType.error, error.message, "getUserAllOrderItemsController", "order.controller.ts");
+        next(error);
+    }
+};
+
+// Update order details
+export const updateOrderDetailsController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
+    try {
+        // Check validation errors
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
+        }
+
+        const orderId: number = +(req.params?.order_id);
+
+        let Body: any = req.body;
+
+        if (!orderId) {
             return response(res, HttpStatus.notAcceptable, false, messages.errorMessage(), null);
         }
 
-        let updateResult = await orderModel.updateOrderItem(order_item_id, Body.quantity);
+        let updateResult = await orderModel.updateOrder(orderId, Body);
         console.log("updateResult:-", updateResult);
 
-        if (updateResult.affectedRows === undefined) {
+        if (updateResult.affectedRows === undefined && updateResult.affectedRows === 0) {
             return response(res, HttpStatus.internalServerError, false, messages.errorMessage(), null);
         }
-        else if (updateResult.affectedRows === 0) {
-            return response(res, HttpStatus.notModified, false, messages.itemNotUpdated(), null);
-        }
 
-        let responseData = await getAllOrderItems(+(req.user?.id));
+        // Fetching the order details of specific order
+        let ordersResult = await orderModel.getOrderDetailsByOrderId(orderId);
+        console.log("ordersResult:-", ordersResult);
 
-        return response(res, HttpStatus.ok, true, messages.itemUpdated(), responseData);
+        return response(res, HttpStatus.ok, true, messages.itemUpdated(), ordersResult);
     }
     catch (error: any) {
         console.error("Catch error:-", error);
         printLogger(LoggerType.error, error.message, "updateQuantityController", "order.controller.ts");
         next(error);
     }
-};
-
-// Remove items from order
-export const removeOrderItemController = async (req: iRequest, res: iResponse, next: iNextFunction) => {
-    try {
-        // Check validation errors
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return response(res, HttpStatus.unProcessableEntity, false, messages.validationError(), errors.array());
-        }
-
-        const order_item_id: number = +(req.params?.order_item_id);
-
-        if (!order_item_id) {
-            return response(res, HttpStatus.notAcceptable, false, messages.errorMessage(), null);
-        }
-
-        let removeResult = await orderModel.removeOrderItem(order_item_id);
-        console.log("removeResult:-", removeResult);
-
-        if (removeResult.affectedRows === 0) {
-            return response(res, HttpStatus.notModified, false, messages.itemNotRemoved(), null);
-        }
-
-        let responseData = await getAllOrderItems(+(req.user?.id));
-
-        return response(res, HttpStatus.ok, true, messages.itemRemoved(), responseData);
-    }
-    catch (error: any) {
-        console.error("Catch error:-", error);
-        printLogger(LoggerType.error, error.message, "removeOrderItemController", "order.controller.ts");
-        next(error);
-    }
-};
-
-const getAllOrderItems = async (userId: number) => {
-    let orderItemsResult = await orderModel.getAllOrderItems(userId);
-
-    let totalOrderValue = 0.0, totalOrderItems = orderItemsResult.length;
-
-    if (totalOrderItems > 0) {
-        orderItemsResult.map((items: any) => {
-            totalOrderValue += (parseFloat(items.price) * items.quantity);
-        });
-    }
-    return { total_order_items: totalOrderItems, total_order_value: totalOrderValue.toFixed(2), items: orderItemsResult }
 };

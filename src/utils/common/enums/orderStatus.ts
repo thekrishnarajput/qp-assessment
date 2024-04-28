@@ -1,5 +1,6 @@
+// Order status
 export const OrderStatus = {
-    // Order status
+    orderInitiated: 0 as const,
     orderPending: 1 as const,
     orderApproved: 2 as const,
     orderProcessing: 3 as const,

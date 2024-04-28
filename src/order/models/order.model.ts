@@ -2,58 +2,99 @@ import connection from "../../db";
 import { processQueryFn } from "../../utils/common/functions/db.config";
 
 const orderModel = {
-    createUserOrder: async (userId: number) => {
-        let query = `INSERT INTO orders (user_id) VALUES (${userId});`;
+    createUserOrder: async (orderData: { user_id: number, status: number }) => {
+
+        const columns = Object.keys(orderData);
+        const values = Object.values(orderData);
+
+        let query = `INSERT INTO orders (${columns.join(', ')}) VALUES (${values.join(', ')});`;
 
         let result = await processQueryFn(query);
         return result;
     },
-    addItemsToOrder: async (orderId: number, orderData: any) => {
+    addItemsToOrderItems: async (orderData: any) => {
         // Call the mysql connection to make the query secure and sql injection proof
         const con = await connection;
 
-        const columns = Object.keys({ "order_id": orderId, ...orderData[0] });
+        const columns = Object.keys(orderData);
 
         // Construct the column names string for the INSERT INTO query
-        let query = `INSERT INTO order_items(${columns.join(", ")}) VALUES `;
+        const values = Object.values(orderData);
 
-        // Construct the values string for each row
-        const rowValues = orderData.map((orderDataObj: any) => {
-            // Append the order_id field and value to the orderDataObj object
-            orderDataObj["order_id"] = orderId;
-            const values = columns.map((column: any) => {
-                // To make the query secure and SQL injection proof, you should escape the values
+        let query = `INSERT INTO order_items (${columns.join(', ')}) VALUES (${values.join(', ')});`;
 
-                return con.escape(orderDataObj[column]);
-            });
-            return `(${values.join(", ")})`;
-        });
+        // // Construct the values string for each row
+        // const rowValues = orderData.map((orderDataObj: any) => {
+        //     // Append the order_id field and value to the orderDataObj object
+        //     orderDataObj["order_id"] = orderId;
+        //     const values = columns.map((column: any) => {
+        //         // To make the query secure and SQL injection proof, you should escape the values
+
+        //         return con.escape(orderDataObj[column]);
+        //     });
+        //     return `(${values.join(", ")})`;
+        // });
 
         // Append the row values to the query
-        query += rowValues.join(", ");
+        // query += rowValues.join(", ");
         console.log("query:-", query);
 
         let result = await processQueryFn(query);
         return result;
     },
-    getOrder: async (userId: number) => {
+    getOrdersByUser: async (userId: number) => {
 
         let query = `SELECT * FROM orders WHERE user_id=${userId};`;
 
         let result = await processQueryFn(query);
         return result;
     },
-    getAllOrderItems: async (userId: number) => {
+    getOrderById: async (userId: number) => {
 
-        let query = `SELECT order_items.id, items.name, items.image_url, items.price,
-        order_items.quantity
-        FROM order_items
-        JOIN items On order_items.item_id = items.id
-        WHERE order_items.order_id=(
-            SELECT order_id FROM orders WHERE user_id = ?
-        );`;
+        let query = `SELECT * FROM orders WHERE id=${userId};`;
 
-        let result = await processQueryFn(query, [userId]);
+        let result = await processQueryFn(query);
+        return result;
+    },
+    getUserAllOrderItems: async (userId: number) => {
+
+        let query = `SELECT * FROM orders WHERE user_id=${userId} ORDER BY created_at DESC;`;
+
+        let result = await processQueryFn(query);
+        return result;
+    },
+    getAllOrderItems: async () => {
+
+        let query = `SELECT * FROM orders ORDER BY created_at DESC LIMIT 100;`;
+
+        let result = await processQueryFn(query);
+        return result;
+    },
+    getOrderDetailsByOrderId: async (orderId: number) => {
+
+        let query = `SELECT * FROM orders WHERE id=${orderId};`;
+
+        let result = await processQueryFn(query);
+        return result;
+    },
+    getOrderItemsDetailByOrderId: async (orderId: number) => {
+
+        let query = `SELECT
+                            order_items.id AS order_item_id,
+                            order_items.item_id,
+                            order_items.quantity AS order_item_quantity,
+                            order_items.price AS order_item_price,
+                            items.name AS item_name,
+                            items.price AS item_price,
+                            items.description AS item_description,
+                            items.image_url AS item_image_url
+                        FROM orders
+                        JOIN order_items ON orders.id = order_items.order_id
+                        JOIN items ON order_items.item_id = items.id
+                        WHERE orders.id = ${orderId};
+                        `;
+
+        let result = await processQueryFn(query);
         return result;
     },
     updateOrderItem: async (id: number, quantity: number) => {
@@ -62,17 +103,22 @@ const orderModel = {
 
         let query = `UPDATE order_items SET quantity=? WHERE id=${id}`
         console.log("query:-", query);
-        
+
         let result = processQueryFn(query, [quantity]);
         return result;
     },
-    removeOrderItem: async (order_item_id: number) => {
+    updateOrder: async (orderId: number, orderDetails: { delivery_address?: string, status?: number }) => {
 
-        let query = `DELETE FROM order_items WHERE id=${order_item_id};`
+        const columns = Object.keys(orderDetails).join("=?, ") + "=? ";
+        const values = Object.values(orderDetails);
 
-        let result = processQueryFn(query);
+        let query = `UPDATE orders SET ${columns} WHERE id=${orderId}`
+        console.log("query:-", query);
+        console.log("values:-", values);
+
+        let result = processQueryFn(query, values);
         return result;
-    }
+    },
 };
 
 export default orderModel;
